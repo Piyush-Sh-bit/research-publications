@@ -1,0 +1,125 @@
+﻿======================================================================
+  MDBF Computation Pipeline
+  Multi-Dimensional Benchmarking Framework for MLLMs
+======================================================================
+
+======================================================================
+  TABLE: Raw Benchmark Scores (Table 3 in paper)
+======================================================================
+Model                    VQAv2       GQA   TextVQA    OK-VQA   MMBenchSEED-Bench       MME    MM-Vet
+----------------------------------------------------------------------------------------------------
+GPT-4V                    77.2      64.5      78.0      66.1      75.1      72.3    1926.8      67.7
+Gemini Pro Vision         74.8      62.8      74.6      62.3      73.6      73.1    1872.5      64.3
+LLaVA-1.5-13B             80.0      63.3      61.3      57.8      68.2      68.1    1775.4      36.3
+InstructBLIP              65.3      56.7      50.1      54.1      52.4      58.8    1584.2      26.2
+Qwen-VL-Chat              73.1      60.4      63.8      58.6      61.8      65.4    1688.7      43.1
+CogVLM                    73.9      60.9      70.4      56.2      65.8      68.8    1813.6      52.8
+
+======================================================================
+  TABLE: Normalized Benchmark Scores (Eq. 1)
+======================================================================
+Model                    VQAv2       GQA   TextVQA    OK-VQA   MMBenchSEED-Bench       MME    MM-Vet
+----------------------------------------------------------------------------------------------------
+GPT-4V                    81.0     100.0     100.0     100.0     100.0      94.4     100.0     100.0
+Gemini Pro Vision         64.6      78.2      87.8      68.3      93.4     100.0      84.2      91.8
+LLaVA-1.5-13B            100.0      84.6      40.1      30.8      69.6      65.0      55.8      24.3
+InstructBLIP               0.0       0.0       0.0       0.0       0.0       0.0       0.0       0.0
+Qwen-VL-Chat              53.1      47.4      49.1      37.5      41.4      46.2      30.5      40.7
+CogVLM                    58.5      53.8      72.8      17.5      59.0      69.9      67.0      64.1
+
+======================================================================
+  TABLE: Dimension Composite Scores (Eq. 2 & 3)
+======================================================================
+Model                     D1      D2      D3      D4      D5   Overall
+----------------------------------------------------------------------
+GPT-4V                  92.4    98.3   100.0   100.0    97.2      97.6
+Gemini Pro Vision       74.3    90.8    86.4    80.0    95.9      85.5
+LLaVA-1.5-13B           83.6    72.7    46.4    27.6    44.6      55.0
+InstructBLIP             0.0     0.0     0.0     0.0     0.0       0.0
+Qwen-VL-Chat            45.5    44.6    41.7    39.1    43.5      42.9
+CogVLM                  59.0    60.7    70.5    40.8    67.0      59.6
+
+======================================================================
+  TABLE: Performance Gap Ratio (Eq. 4)
+======================================================================
+Dimension                            Prop. Mean   Open Mean   PGR (%)
+---------------------------------------------------------------------
+D1: Visual Perception                      83.3        47.0      43.6
+D2: Reasoning & Inference                  94.5        44.5      52.9
+D3: OCR & Text Understanding               93.2        39.6      57.5
+D4: Knowledge Integration                  90.0        26.9      70.1
+D5: Robustness & Hallucination             96.6        38.8      59.8
+---------------------------------------------------------------------
+Overall                                    91.5        39.4      57.0
+
+======================================================================
+  TABLE: Wilcoxon Signed-Rank Tests
+======================================================================
+Model Pair                                     W-stat   p-value  Sig.
+---------------------------------------------------------------------
+GPT-4V vs. Gemini Pro Vision                      0.0     0.062      
+Gemini Pro Vision vs. CogVLM                      0.0     0.062      
+CogVLM vs. LLaVA-1.5-13B                          6.0     0.812      
+LLaVA-1.5-13B vs. Qwen-VL-Chat                    3.0     0.312      
+Qwen-VL-Chat vs. InstructBLIP                     0.0     0.062      
+
+======================================================================
+  TABLE: Cross-Model Variance by Dimension
+======================================================================
+Dimension                              Mean     Std   CV(%)   Range
+-------------------------------------------------------------------
+D1: Visual Perception                  59.1    30.6    51.7    92.4
+D2: Reasoning & Inference              61.2    32.7    53.4    98.3
+D3: OCR & Text Understanding           57.5    32.9    57.2   100.0
+D4: Knowledge Integration              47.9    33.1    69.1   100.0
+D5: Robustness & Hallucination         58.0    33.7    58.0    97.2
+
+======================================================================
+  TABLE: Cross-Dimension Spearman Correlations
+======================================================================
+                  D1      D2      D3      D4      D5
+          D1   1.000   0.943   0.829   0.657   0.829
+          D2   0.943   1.000   0.943   0.829   0.943
+          D3   0.829   0.943   1.000   0.943   1.000
+          D4   0.657   0.829   0.943   1.000   0.943
+          D5   0.829   0.943   1.000   0.943   1.000
+
+======================================================================
+  PIPELINE COMPLETE
+======================================================================
+All results computed from raw benchmark scores.
+No hardcoded derived values ù all metrics follow Equations 1-4.
+
+
+============================================================
+VALUES FOR PAPER TABLES
+============================================================
+
+--- Table 4: Dimension Scores ---
+GPT-4V               D1= 92.4  D2= 98.3  D3=100.0  D4=100.0  D5= 97.2  Overall= 97.6
+Gemini Pro Vision    D1= 74.3  D2= 90.8  D3= 86.4  D4= 80.0  D5= 95.9  Overall= 85.5
+LLaVA-1.5-13B        D1= 83.6  D2= 72.7  D3= 46.4  D4= 27.6  D5= 44.6  Overall= 55.0
+InstructBLIP         D1=  0.0  D2=  0.0  D3=  0.0  D4=  0.0  D5=  0.0  Overall=  0.0
+Qwen-VL-Chat         D1= 45.5  D2= 44.6  D3= 41.7  D4= 39.1  D5= 43.5  Overall= 42.9
+CogVLM               D1= 59.0  D2= 60.7  D3= 70.5  D4= 40.8  D5= 67.0  Overall= 59.6
+
+--- Table 5: PGR Values ---
+D1: Visual Perception               Prop= 83.3  Open= 47.0  PGR= 43.6%
+D2: Reasoning & Inference           Prop= 94.5  Open= 44.5  PGR= 52.9%
+D3: OCR & Text Understanding        Prop= 93.2  Open= 39.6  PGR= 57.5%
+D4: Knowledge Integration           Prop= 90.0  Open= 26.9  PGR= 70.1%
+D5: Robustness & Hallucination      Prop= 96.6  Open= 38.8  PGR= 59.8%
+
+--- Table 6: Statistical Tests ---
+GPT-4V               vs Gemini Pro Vision     W=  0.0  p=0.062 
+Gemini Pro Vision    vs CogVLM                W=  0.0  p=0.062 
+CogVLM               vs LLaVA-1.5-13B         W=  6.0  p=0.812 
+LLaVA-1.5-13B        vs Qwen-VL-Chat          W=  3.0  p=0.312 
+Qwen-VL-Chat         vs InstructBLIP          W=  0.0  p=0.062 
+
+--- Correlation Matrix ---
+D1     1.000   0.943   0.829   0.657   0.829
+D2     0.943   1.000   0.943   0.829   0.943
+D3     0.829   0.943   1.000   0.943   1.000
+D4     0.657   0.829   0.943   1.000   0.943
+D5     0.829   0.943   1.000   0.943   1.000
