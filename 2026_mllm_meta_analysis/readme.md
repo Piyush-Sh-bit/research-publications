@@ -57,7 +57,7 @@ This will:
 
 | Method | Implementation | Purpose |
 |--------|---------------|---------|
-| DerSimonian-Laird | `statistical_analysis.py` | Random-effects pooling |
+| DerSimonian-Laird | `2026_mllm_meta_analysis/code/statistical_analysis.py` | Random-effects pooling |
 | Multilevel mixed-effects | `multilevel_analysis.py` | Benchmark-within-model synthesis |
 | Cochran's Q, I², τ² | `statistical_analysis.py` | Heterogeneity assessment |
 | Meta-regression (WLS) | `statistical_analysis.py` | Scale as moderator |
