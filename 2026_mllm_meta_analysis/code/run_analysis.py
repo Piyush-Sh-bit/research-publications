@@ -1,4 +1,3 @@
-# Author: Piyush Sharma
 """
 run_analysis.py
 ================
@@ -41,6 +40,7 @@ from statistical_analysis import (
     random_effects_meta_analysis,
     subgroup_meta_analysis,
     meta_regression,
+    meta_regression_multivariate,
     eggers_test,
     trim_and_fill,
     benchmark_correlation_matrix,
@@ -78,8 +78,8 @@ def main():
     # ================================================================
     script_dir = os.path.dirname(os.path.abspath(__file__))
     project_dir = os.path.dirname(script_dir)
-    figures_dir = os.path.join(project_dir, "results", "figures")
-    tables_dir = os.path.join(project_dir, "results", "tables")
+    figures_dir = os.path.join(project_dir, "paper", "figures")
+    tables_dir = os.path.join(project_dir, "paper", "tables")
     os.makedirs(figures_dir, exist_ok=True)
     os.makedirs(tables_dir, exist_ok=True)
     
@@ -184,6 +184,23 @@ def main():
     print(f"  R²:             {mr['R_sq']:.4f}")
     print(f"  QM({mr['QM_df']}):          {mr['QM']:.2f}, p {format_p(mr['QM_p'])}")
     print(f"  QE({mr['QE_df']}):          {mr['QE']:.2f}")
+
+    # Step 5b: Multivariate meta-regression (scale + year)
+    print("\n  --- Multivariate Meta-Regression (Scale + Year) ---")
+    # Need year column in effect sizes df
+    es_df_with_year = results["effect_sizes"].copy()
+    year_map = results["data"].drop_duplicates("model").set_index("model")["year"]
+    es_df_with_year["year"] = es_df_with_year["model"].map(year_map)
+    mr_multi = meta_regression_multivariate(es_df_with_year, ["log_params", "year"])
+    print(f"  Predictors:     log₁₀(Parameters), Publication Year")
+    print(f"  Intercept:      {mr_multi['intercept']:.4f} (SE = {mr_multi['intercept_se']:.4f}), "
+          f"p {format_p(mr_multi['intercept_p'])}")
+    print(f"  log_params (β₁): {mr_multi['log_params_coef']:.4f} "
+          f"(SE = {mr_multi['log_params_se']:.4f}), p {format_p(mr_multi['log_params_p'])}")
+    print(f"  year (β₂):      {mr_multi['year_coef']:.4f} "
+          f"(SE = {mr_multi['year_se']:.4f}), p {format_p(mr_multi['year_p'])}")
+    print(f"  R²:             {mr_multi['R_sq']:.4f}")
+    print(f"  QM({mr_multi['QM_df']}):          {mr_multi['QM']:.2f}, p {format_p(mr_multi['QM_p'])}")
     
     # ================================================================
     # Step 6: Publication Bias
@@ -372,6 +389,19 @@ def main():
         print(f"      - {m}")
     print(f"    Best Efficiency-Efficacy score: {pareto['best_eep']}")
 
+    # 10h-extra: Open-weights-only Pareto frontier
+    print("\n  --- Open-Weights Pareto Frontier (excluding proprietary) ---")
+    from robustness_analysis import compute_pareto_frontier
+    eff_df = robustness["efficiency"]
+    eff_open = eff_df[eff_df["open_source"] == True].copy()
+    es_open = results["effect_sizes"][~results["effect_sizes"]["model"].isin(["GPT-4V", "Gemini-Pro-V"])].copy()
+    pareto_open = compute_pareto_frontier(es_open, eff_open)
+    robustness["pareto_open_weights"] = pareto_open
+    print(f"    Open-weights Pareto-optimal models ({pareto_open['n_pareto']}):")
+    for m in pareto_open["pareto_models"]:
+        print(f"      - {m}")
+    print(f"    Best open-weights EEP: {pareto_open['best_eep']}")
+
     # 10h: Leave-one-benchmark-out (primary multilevel)
     print("\n  --- Leave-One-Benchmark-Out (Primary Multilevel) ---")
     bloo_df = robustness["benchmark_leave_one_out"]
@@ -489,6 +519,23 @@ def main():
     print_header("STEP 12: GENERATING FIGURES")
     generate_all_figures(results, figures_dir)
     generate_robustness_figures(results, robustness, figures_dir)
+
+    # Save multivariate regression and open-weights Pareto for LaTeX extraction
+    print("\n  [Extra] Saving multivariate regression results...")
+    import json
+    extra_results = {}
+    extra_results["mr_multi"] = {k: v for k, v in mr_multi.items() if k != "wls_summary"}
+    # Save bootstrap correlations for VQAv2 pairs
+    boot_df = robustness["bootstrap_correlations"]
+    vqav2_pairs = boot_df[(boot_df["benchmark_1"].str.contains("VQAv2")) | (boot_df["benchmark_2"].str.contains("VQAv2"))]
+    extra_results["vqav2_bootstrap"] = vqav2_pairs.to_dict(orient="records")
+    # Save open-weights Pareto models
+    extra_results["pareto_open_models"] = pareto_open["pareto_models"]
+    extra_results["pareto_open_n"] = pareto_open["n_pareto"]
+    extra_results["pareto_open_best_eep"] = pareto_open["best_eep"]
+    with open(os.path.join(tables_dir, "extra_results.json"), "w") as f:
+        json.dump(extra_results, f, indent=2, default=str)
+    print(f"  ✓ Extra results saved to {os.path.join(tables_dir, 'extra_results.json')}")
     
     # ================================================================
     # Final Summary

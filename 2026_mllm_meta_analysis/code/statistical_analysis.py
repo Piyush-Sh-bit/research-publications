@@ -1,4 +1,3 @@
-# Author: Piyush Sharma
 """
 statistical_analysis.py
 ========================
@@ -300,6 +299,85 @@ def meta_regression(
         "predictor": predictor,
         "wls_summary": str(wls.summary()),
     }
+
+
+def meta_regression_multivariate(
+    es_df: pd.DataFrame,
+    predictors: List[str] = None
+) -> Dict:
+    """
+    Mixed-effects meta-regression with multiple continuous moderators.
+
+    Uses weighted least squares with random-effects weights.
+    Default predictors are log_params and year.
+
+    Parameters
+    ----------
+    es_df : pd.DataFrame
+        Effect size DataFrame with columns for each predictor.
+    predictors : list of str, optional
+        Column names of the predictors. Defaults to ['log_params', 'year'].
+
+    Returns
+    -------
+    dict
+        Regression results including coefficients, p-values, R² for each predictor.
+    """
+    if predictors is None:
+        predictors = ["log_params", "year"]
+
+    d = es_df["d"].values
+    v = es_df["var"].values
+
+    # First compute tau_sq from overall meta-analysis
+    overall = random_effects_meta_analysis(d, v)
+    tau_sq = overall["tau_sq"]
+
+    # Random-effects weights for WLS
+    w = 1.0 / (v + tau_sq)
+
+    # Build design matrix
+    X_data = es_df[predictors].values
+    X = sm.add_constant(X_data)
+    wls = sm.WLS(d, X, weights=w).fit()
+
+    # Compute QM (moderator Q) and QE (residual Q)
+    d_pred = wls.predict(X)
+    QE = np.sum(w * (d - d_pred) ** 2)
+    QM = np.sum(w * (d_pred - np.average(d, weights=w)) ** 2)
+    QE_df = len(d) - len(predictors) - 1
+    QM_df = len(predictors)
+    QM_p = 1.0 - stats.chi2.cdf(QM, QM_df) if QM > 0 else 1.0
+
+    # Proportion of heterogeneity explained
+    overall_QE = overall["Q"]
+    R_sq = max(0, 1.0 - QE / overall_QE) if overall_QE > 0 else 0.0
+
+    result = {
+        "intercept": float(wls.params[0]),
+        "intercept_se": float(wls.bse[0]),
+        "intercept_p": float(wls.pvalues[0]),
+        "R_sq": R_sq,
+        "QM": QM,
+        "QM_df": QM_df,
+        "QM_p": QM_p,
+        "QE": QE,
+        "QE_df": QE_df,
+        "n": len(d),
+        "predictors": predictors,
+        "wls_summary": str(wls.summary()),
+    }
+
+    # Add per-predictor results
+    for i, pred in enumerate(predictors):
+        idx = i + 1  # +1 for constant
+        result[f"{pred}_coef"] = float(wls.params[idx])
+        result[f"{pred}_se"] = float(wls.bse[idx])
+        result[f"{pred}_p"] = float(wls.pvalues[idx])
+        result[f"{pred}_ci_lower"] = float(wls.conf_int()[idx, 0])
+        result[f"{pred}_ci_upper"] = float(wls.conf_int()[idx, 1])
+
+    return result
 
 
 # ============================================================================

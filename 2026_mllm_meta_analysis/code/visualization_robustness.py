@@ -1,4 +1,3 @@
-# Author: Piyush Sharma
 """
 visualization_robustness.py
 ============================
@@ -25,12 +24,12 @@ import os
 plt.rcParams.update({
     "font.family": "serif",
     "font.serif": ["Times New Roman", "DejaVu Serif"],
-    "font.size": 10,
-    "axes.titlesize": 12,
-    "axes.labelsize": 11,
-    "xtick.labelsize": 9,
-    "ytick.labelsize": 9,
-    "legend.fontsize": 9,
+    "font.size": 14,
+    "axes.titlesize": 16,
+    "axes.labelsize": 14,
+    "xtick.labelsize": 12,
+    "ytick.labelsize": 12,
+    "legend.fontsize": 11,
     "figure.dpi": 300,
     "savefig.dpi": 300,
     "savefig.bbox": "tight",
@@ -65,7 +64,7 @@ def plot_leave_one_out(loo_df: pd.DataFrame, full_pooled: float, save_path: str)
         ax.annotate(
             f"Δd = {row['delta_d']:+.4f}  (I²={row['I_sq']:.1f}%)",
             xy=(row["ci_upper"], i),
-            fontsize=6.5, va="center",
+            fontsize=8, va="center",
             xytext=(5, 0), textcoords="offset points",
         )
 
@@ -75,12 +74,12 @@ def plot_leave_one_out(loo_df: pd.DataFrame, full_pooled: float, save_path: str)
 
     labels = [row["excluded_model"] for _, row in loo_sorted.iterrows()]
     ax.set_yticks(range(n))
-    ax.set_yticklabels(labels, fontsize=8)
+    ax.set_yticklabels(labels, fontsize=9)
     ax.set_xlabel("Pooled Effect Size (d) with Model Excluded")
     ax.set_title(
         "Leave-One-Out Sensitivity Analysis\n"
         "Effect of Excluding Each Model on the Pooled Estimate",
-        fontsize=11, fontweight="bold"
+        fontsize=14, fontweight="bold"
     )
     ax.legend(loc="lower right", framealpha=0.9)
 
@@ -146,7 +145,7 @@ def plot_galbraith(galbraith_df: pd.DataFrame, pooled_effect: float, save_path: 
     ax.set_title(
         f"Galbraith (Radial) Plot for Heterogeneity Assessment\n"
         f"Outliers (|residual| > 2): {n_outliers} models",
-        fontsize=11, fontweight="bold"
+        fontsize=14, fontweight="bold"
     )
     ax.legend(loc="upper left", framealpha=0.9)
 
@@ -194,7 +193,7 @@ def plot_pareto_frontier(pareto_data: Dict, save_path: str):
         color = "#c0392b" if row["pareto_optimal"] else "#2c3e50"
         ax.annotate(
             row["model"], (row["est_tflops"], row["d"]),
-            fontsize=6.5, ha="left", va="bottom",
+            fontsize=7.5, ha="left", va="bottom",
             xytext=(4, 4), textcoords="offset points",
             fontweight=fontweight, color=color
         )
@@ -206,7 +205,7 @@ def plot_pareto_frontier(pareto_data: Dict, save_path: str):
         f"Accuracy--Efficiency Pareto Frontier\n"
         f"{pareto_data['n_pareto']} Pareto-optimal models | "
         f"Best EEP: {pareto_data['best_eep']}",
-        fontsize=11, fontweight="bold"
+        fontsize=14, fontweight="bold"
     )
 
     legend_elements = [
@@ -252,7 +251,7 @@ def plot_influence_diagnostics(influence_df: pd.DataFrame, save_path: str):
     ax.axvline(x=0, color="gray", linestyle="-", linewidth=0.5)
 
     ax.set_yticks(range(n))
-    ax.set_yticklabels(inf_sorted["model"], fontsize=7)
+    ax.set_yticklabels(inf_sorted["model"], fontsize=8)
     ax.set_xlabel("DFBETAS")
     ax.set_title("(a) Influence on Pooled Estimate (DFBETAS)", fontweight="bold")
     ax.legend(loc="lower right", fontsize=8)
@@ -330,4 +329,88 @@ def generate_robustness_figures(results: Dict, robustness: Dict, output_dir: str
         os.path.join(output_dir, "fig11_influence_diagnostics.png")
     )
 
+    # Figure 12: Open-weights Pareto frontier (if computed)
+    if "pareto_open_weights" in robustness:
+        print("[12] Open-weights Pareto frontier...")
+        plot_open_weights_pareto(
+            robustness["pareto_open_weights"],
+            os.path.join(output_dir, "fig12_pareto_open_weights.png")
+        )
+
     print("\n✓ All 4 robustness figures generated successfully.")
+
+
+# ============================================================================
+# Figure 12: Open-Weights Pareto Frontier
+# ============================================================================
+
+def plot_open_weights_pareto(pareto_data: Dict, save_path: str):
+    """
+    Scatter plot of open-weights model performance vs. computational cost,
+    with the Pareto frontier highlighted. Excludes proprietary models.
+    """
+    df = pareto_data["data"].copy()
+    fig, ax = plt.subplots(figsize=(10, 7))
+
+    # Colors: Pareto-optimal vs non-optimal
+    pareto_colors = np.where(df["pareto_optimal"], "#e74c3c", "#2ecc71")
+    pareto_sizes = np.where(df["pareto_optimal"], 120, 60)
+
+    ax.scatter(
+        df["est_tflops"], df["d"],
+        s=pareto_sizes, c=pareto_colors,
+        edgecolors="black", linewidth=0.5,
+        alpha=0.8, zorder=3
+    )
+
+    # Draw Pareto frontier line
+    pareto_pts = df[df["pareto_optimal"]].sort_values("est_tflops")
+    if len(pareto_pts) > 1:
+        ax.plot(
+            pareto_pts["est_tflops"], pareto_pts["d"],
+            color="#e74c3c", linewidth=2, linestyle="--",
+            alpha=0.5, zorder=2, label="Open-Weights Pareto Frontier"
+        )
+
+    # Label all models
+    for _, row in df.iterrows():
+        fontweight = "bold" if row["pareto_optimal"] else "normal"
+        color = "#c0392b" if row["pareto_optimal"] else "#2c3e50"
+        ax.annotate(
+            row["model"], (row["est_tflops"], row["d"]),
+            fontsize=7.5, ha="left", va="bottom",
+            xytext=(4, 4), textcoords="offset points",
+            fontweight=fontweight, color=color
+        )
+
+    ax.set_xscale("log")
+    ax.set_xlabel("Estimated TFLOPs per Forward Pass (log scale)")
+    ax.set_ylabel("Standardized Effect Size (d)")
+    ax.set_title(
+        f"Open-Weights Accuracy--Efficiency Pareto Frontier\n"
+        f"{pareto_data['n_pareto']} Pareto-optimal models | "
+        f"Best EEP: {pareto_data['best_eep']}\n"
+        f"(Proprietary models GPT-4V and Gemini-Pro-V excluded)",
+        fontsize=14, fontweight="bold"
+    )
+
+    # TFLOP caveat annotation
+    ax.annotate(
+        "Note: TFLOP estimates are based on parameter-count\n"
+        "scaling heuristics and published benchmarks.",
+        xy=(0.02, 0.02), xycoords="axes fraction",
+        fontsize=8, fontstyle="italic", color="gray",
+        va="bottom", ha="left",
+        bbox=dict(boxstyle="round,pad=0.3", facecolor="lightyellow", alpha=0.8)
+    )
+
+    legend_elements = [
+        mpatches.Patch(color="#e74c3c", label="Pareto-Optimal (Open)"),
+        mpatches.Patch(color="#2ecc71", label="Dominated (Open)"),
+    ]
+    ax.legend(handles=legend_elements, loc="lower right", framealpha=0.9)
+
+    plt.tight_layout()
+    plt.savefig(save_path, bbox_inches="tight")
+    plt.close()
+    print(f"  Saved: {save_path}")

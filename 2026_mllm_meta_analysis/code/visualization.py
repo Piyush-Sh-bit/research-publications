@@ -1,4 +1,3 @@
-# Author: Piyush Sharma
 """
 visualization.py
 =================
@@ -33,12 +32,12 @@ import os
 plt.rcParams.update({
     "font.family": "serif",
     "font.serif": ["Times New Roman", "DejaVu Serif"],
-    "font.size": 10,
-    "axes.titlesize": 12,
-    "axes.labelsize": 11,
-    "xtick.labelsize": 9,
-    "ytick.labelsize": 9,
-    "legend.fontsize": 9,
+    "font.size": 14,
+    "axes.titlesize": 16,
+    "axes.labelsize": 14,
+    "xtick.labelsize": 12,
+    "ytick.labelsize": 12,
+    "legend.fontsize": 11,
     "figure.dpi": 300,
     "savefig.dpi": 300,
     "savefig.bbox": "tight",
@@ -132,14 +131,14 @@ def plot_forest(
     
     all_y = list(y_positions) + [diamond_y]
     ax.set_yticks(all_y)
-    ax.set_yticklabels(labels, fontsize=8)
+    ax.set_yticklabels(labels, fontsize=9)
     
     # Right-side annotations (effect size values)
     for i, (_, row) in enumerate(es_sorted.iterrows()):
         ax.annotate(
             f"{row['d']:.2f} [{row['ci_lower']:.2f}, {row['ci_upper']:.2f}]",
             xy=(ax.get_xlim()[1] if ax.get_xlim()[1] > 0 else 2.5, i),
-            fontsize=7, va="center",
+            fontsize=8, va="center",
             xytext=(5, 0), textcoords="offset points",
         )
     
@@ -148,7 +147,7 @@ def plot_forest(
         f"Forest Plot: MLLM Performance Meta-Analysis\n"
         f"I² = {overall_ma['I_sq']:.1f}%, τ² = {overall_ma['tau_sq']:.3f}, "
         f"Q({overall_ma['Q_df']}) = {overall_ma['Q']:.1f}",
-        fontsize=11, fontweight="bold"
+        fontsize=14, fontweight="bold"
     )
     
     # Legend
@@ -209,7 +208,7 @@ def plot_funnel(
     for _, row in es_df.iterrows():
         ax.annotate(
             row["model"], (row["d"], row["se"]),
-            fontsize=6, ha="center", va="bottom",
+            fontsize=7, ha="center", va="bottom",
             xytext=(0, 4), textcoords="offset points", alpha=0.7
         )
     
@@ -224,7 +223,7 @@ def plot_funnel(
         f"Funnel Plot for Publication Bias Assessment\n"
         f"Egger's test: intercept = {egger_results['intercept']:.3f}, "
         f"p = {egger_p:.3f} (Bias: {egger_sig})",
-        fontsize=11, fontweight="bold"
+        fontsize=14, fontweight="bold"
     )
     
     ax.legend(loc="upper right", framealpha=0.9)
@@ -241,12 +240,29 @@ def plot_funnel(
 def plot_correlation_heatmap(
     corr_mat: pd.DataFrame, 
     pval_mat: pd.DataFrame, 
-    save_path: str
+    save_path: str,
+    df_norm: pd.DataFrame = None
 ):
     """
     Create a heatmap of inter-benchmark Spearman correlations.
+    If df_norm is provided, cells with pairwise n < 5 are flagged.
     """
-    fig, ax = plt.subplots(figsize=(8, 7))
+    fig, ax = plt.subplots(figsize=(9, 8))
+    
+    # Compute pairwise sample sizes if data is available
+    n_mat = None
+    if df_norm is not None:
+        pivot = df_norm.pivot_table(
+            index="model", columns="benchmark", values="normalized_score"
+        )
+        benchmarks = corr_mat.index.tolist()
+        n_mat = pd.DataFrame(np.zeros((len(benchmarks), len(benchmarks)), dtype=int),
+                           index=benchmarks, columns=benchmarks)
+        for i, b1 in enumerate(benchmarks):
+            for j, b2 in enumerate(benchmarks):
+                if b1 in pivot.columns and b2 in pivot.columns:
+                    valid = pivot[[b1, b2]].dropna()
+                    n_mat.iloc[i, j] = len(valid)
     
     # Mask upper triangle
     mask = np.triu(np.ones_like(corr_mat, dtype=bool), k=1)
@@ -268,19 +284,33 @@ def plot_correlation_heatmap(
                 annot_text[i, j] = f"{val:.2f}*"
             else:
                 annot_text[i, j] = f"{val:.2f}"
+            # Add dagger for unreliable pairs (n < 5)
+            if n_mat is not None and n_mat.iloc[i, j] < 5 and i != j:
+                annot_text[i, j] = annot_text[i, j] + "\u2020" if annot_text[i, j] else ""
     
     sns.heatmap(
         corr_mat, mask=mask, annot=annot_text, fmt="",
         cmap="RdYlBu_r", center=0, vmin=-1, vmax=1,
         square=True, linewidths=0.5, linecolor="white",
-        cbar_kws={"label": "Spearman ρ", "shrink": 0.8},
-        ax=ax
+        cbar_kws={"label": "Spearman \u03c1", "shrink": 0.8},
+        ax=ax, annot_kws={"fontsize": 10}
     )
     
+    # Gray out cells where n < 5 with hatching
+    if n_mat is not None:
+        for i in range(len(corr_mat)):
+            for j in range(len(corr_mat)):
+                if not mask[i, j] and i != j and n_mat.iloc[i, j] < 5:
+                    ax.add_patch(plt.Rectangle((j, i), 1, 1, fill=False,
+                                              hatch='///', edgecolor='gray',
+                                              linewidth=0, alpha=0.5))
+    
+    footnote = "* p<0.05, ** p<0.01, *** p<0.001"
+    if n_mat is not None:
+        footnote += "; \u2020 = n < 5 (unreliable)"
     ax.set_title(
-        "Inter-Benchmark Correlation Matrix (Spearman ρ)\n"
-        "* p<0.05, ** p<0.01, *** p<0.001",
-        fontsize=11, fontweight="bold"
+        "Inter-Benchmark Correlation Matrix (Spearman \u03c1)\n" + footnote,
+        fontsize=14, fontweight="bold"
     )
     
     plt.tight_layout()
@@ -352,7 +382,7 @@ def plot_scale_performance(
         fontsize=11, fontweight="bold"
     )
     
-    ax.legend(bbox_to_anchor=(1.02, 1), loc="upper left", fontsize=8)
+    ax.legend(bbox_to_anchor=(1.02, 1), loc="upper left", fontsize=10)
     plt.tight_layout()
     plt.savefig(save_path, bbox_inches="tight")
     plt.close()
@@ -401,7 +431,7 @@ def plot_subgroup_forest(
             f"[{ci_lower:.3f}, {ci_upper:.3f}]\n"
             f"I² = {row['I_sq']:.1f}%, k = {row['n_models']}",
             xy=(ci_upper, i),
-            fontsize=7, va="center",
+            fontsize=8, va="center",
             xytext=(8, 0), textcoords="offset points",
         )
     
@@ -409,9 +439,9 @@ def plot_subgroup_forest(
     
     labels = [str(row["subgroup"]) for _, row in subgroup_df.iterrows()]
     ax.set_yticks(range(n))
-    ax.set_yticklabels(labels, fontsize=9)
+    ax.set_yticklabels(labels, fontsize=10)
     ax.set_xlabel("Pooled Standardized Effect Size (d)")
-    ax.set_title(title, fontsize=11, fontweight="bold")
+    ax.set_title(title, fontsize=14, fontweight="bold")
     
     ax.set_ylim(-0.5, n - 0.5)
     plt.tight_layout()
@@ -467,13 +497,13 @@ def plot_radar_chart(
             ax.fill(angles, values, alpha=0.1, color=colors[idx])
     
     ax.set_xticks(angles[:-1])
-    ax.set_xticklabels(valid_benchmarks, fontsize=8)
+    ax.set_xticklabels(valid_benchmarks, fontsize=10)
     ax.set_ylim(0, 1)
     ax.set_title(
         f"Top-{top_n} MLLM Performance Profiles\nAcross Benchmarks (Normalized Scores)",
         fontsize=11, fontweight="bold", pad=20
     )
-    ax.legend(loc="upper right", bbox_to_anchor=(1.3, 1.1), fontsize=8)
+    ax.legend(loc="upper right", bbox_to_anchor=(1.3, 1.1), fontsize=10)
     
     plt.tight_layout()
     plt.savefig(save_path, bbox_inches="tight")
@@ -586,7 +616,8 @@ def generate_all_figures(results: Dict, output_dir: str):
     plot_correlation_heatmap(
         results["benchmark_correlations"],
         results["benchmark_corr_pvalues"],
-        os.path.join(output_dir, "fig3_correlation_heatmap.png")
+        os.path.join(output_dir, "fig3_correlation_heatmap.png"),
+        df_norm=results["data"]
     )
     
     # Figure 4: Scale-performance
