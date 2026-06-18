@@ -562,9 +562,8 @@ def plot_training_strategy_box(
     ax.set_xlabel("Training Strategy")
     ax.set_ylabel("Normalized Score [0, 1]")
     ax.set_title(
-        f"Performance Distribution by Training Strategy\n"
-        f"Kruskal-Wallis H = {kw_H:.2f}, p = {kw_p:.4f}, η² = {kw_eta:.3f}",
-        fontsize=11, fontweight="bold"
+        "Performance Distribution by Training Strategy",
+        fontsize=14, fontweight="bold"
     )
     
     plt.tight_layout()
