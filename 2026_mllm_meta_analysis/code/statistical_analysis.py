@@ -6,7 +6,7 @@ Core statistical methods for the MLLM meta-analysis.
 Implements:
   1. Z-score normalization of benchmark scores
   2. Random-effects meta-analysis (DerSimonian-Laird)
-  3. Heterogeneity statistics (I², Q, tau²)
+  3. Heterogeneity statistics (I^2, Q, tau^2)
   4. Moderator analysis (meta-regression)
   5. Publication bias tests (Egger's, funnel plot asymmetry)
   6. Subgroup analysis by architecture factors
@@ -253,7 +253,7 @@ def meta_regression(
     Returns
     -------
     dict
-        Regression results including coefficients, p-values, R².
+        Regression results including coefficients, p-values, R^2.
     """
     d = es_df["d"].values
     v = es_df["var"].values
@@ -321,7 +321,7 @@ def meta_regression_multivariate(
     Returns
     -------
     dict
-        Regression results including coefficients, p-values, R² for each predictor.
+        Regression results including coefficients, p-values, R^2 for each predictor.
     """
     if predictors is None:
         predictors = ["log_params", "year"]
@@ -627,7 +627,7 @@ def kruskal_wallis_by_group(
     Returns
     -------
     dict
-        H statistic, p-value, effect size (eta²), group medians.
+        H statistic, p-value, effect size (eta^2), group medians.
     """
     groups = []
     group_names = []
@@ -744,17 +744,17 @@ if __name__ == "__main__":
     print(f"  Pooled effect (d): {ma['pooled_effect']:.4f}")
     print(f"  95% CI: [{ma['pooled_ci_lower']:.4f}, {ma['pooled_ci_upper']:.4f}]")
     print(f"  Z = {ma['pooled_z']:.4f}, p = {ma['pooled_p']:.4f}")
-    print(f"  tau² = {ma['tau_sq']:.4f}")
+    print(f"  tau^2 = {ma['tau_sq']:.4f}")
     print(f"  Q({ma['Q_df']}) = {ma['Q']:.2f}, p = {ma['Q_p']:.4f}")
-    print(f"  I² = {ma['I_sq']:.1f}%")
+    print(f"  I^2 = {ma['I_sq']:.1f}%")
     print(f"  k = {ma['k']} models")
     
     print("\n" + "=" * 60)
-    print("META-REGRESSION: log(Parameters) → Effect Size")
+    print("META-REGRESSION: log(Parameters) -> Effect Size")
     print("=" * 60)
     mr = results["meta_regression_scale"]
     print(f"  Slope = {mr['slope']:.4f} (SE = {mr['slope_se']:.4f}), p = {mr['slope_p']:.4f}")
-    print(f"  R² = {mr['R_sq']:.4f}")
+    print(f"  R^2 = {mr['R_sq']:.4f}")
     print(f"  QM({mr['QM_df']}) = {mr['QM']:.2f}, p = {mr['QM_p']:.4f}")
     
     print("\n" + "=" * 60)

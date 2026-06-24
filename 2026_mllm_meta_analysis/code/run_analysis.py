@@ -13,13 +13,13 @@ This script:
     4. Computes standardized effect sizes per model for secondary analysis
     5. Runs DerSimonian-Laird random-effects meta-analysis as a sensitivity check
     6. Performs subgroup analyses (training strategy, encoder family, scale)
-    7. Conducts meta-regression (model scale → performance)
+    7. Conducts meta-regression (model scale -> performance)
     8. Tests for publication bias (Egger's test, trim-and-fill)
     9. Computes inter-benchmark Spearman correlations
     10. Runs robustness analyses (Hedges' g, leave-one-out, bootstrap CIs,
      sensitivity excluding proprietary, Galbraith plot, influence diagnostics,
      efficiency Pareto frontier)
-    11. Generates 11 publication-quality figures
+    11. Generates 12 publication-quality figures
     12. Outputs comprehensive results tables (CSV + console)
 """
 
@@ -130,9 +130,9 @@ def main():
     print(f"  95% CI:           [{ma['pooled_ci_lower']:.4f}, {ma['pooled_ci_upper']:.4f}]")
     print(f"  Z-test:           Z = {ma['pooled_z']:.4f}, p {format_p(ma['pooled_p'])}")
     print(f"\n  Heterogeneity:")
-    print(f"    τ² (tau-squared): {ma['tau_sq']:.4f}")
+    print(f"    tau^2 (tau-squared): {ma['tau_sq']:.4f}")
     print(f"    Q({ma['Q_df']}):           {ma['Q']:.2f}, p {format_p(ma['Q_p'])}")
-    print(f"    I²:               {ma['I_sq']:.1f}%")
+    print(f"    I^2:               {ma['I_sq']:.1f}%")
     
     if ma['I_sq'] < 25:
         hetero_level = "LOW"
@@ -153,7 +153,7 @@ def main():
         print(f"\n  [{row['subgroup']}] (k = {row['n_models']})")
         print(f"    Pooled d = {row['pooled_effect']:.4f} "
               f"[{row['pooled_ci_lower']:.4f}, {row['pooled_ci_upper']:.4f}]")
-        print(f"    I² = {row['I_sq']:.1f}%, Q({row['Q_df']}) = {row['Q']:.2f}")
+        print(f"    I^2 = {row['I_sq']:.1f}%, Q({row['Q_df']}) = {row['Q']:.2f}")
     
     print("\n  --- By Vision Encoder Family ---")
     sub_enc = results["subgroup_encoder"]
@@ -161,7 +161,7 @@ def main():
         print(f"\n  [{row['subgroup']}] (k = {row['n_models']})")
         print(f"    Pooled d = {row['pooled_effect']:.4f} "
               f"[{row['pooled_ci_lower']:.4f}, {row['pooled_ci_upper']:.4f}]")
-        print(f"    I² = {row['I_sq']:.1f}%")
+        print(f"    I^2 = {row['I_sq']:.1f}%")
     
     print("\n  --- By Model Scale ---")
     sub_scale = results["subgroup_scale"]
@@ -169,19 +169,19 @@ def main():
         print(f"\n  [{row['subgroup']}] (k = {row['n_models']})")
         print(f"    Pooled d = {row['pooled_effect']:.4f} "
               f"[{row['pooled_ci_lower']:.4f}, {row['pooled_ci_upper']:.4f}]")
-        print(f"    I² = {row['I_sq']:.1f}%")
+        print(f"    I^2 = {row['I_sq']:.1f}%")
     
     # ================================================================
     # Step 5: Meta-Regression
     # ================================================================
-    print_header("STEP 5: META-REGRESSION (Scale → Performance)")
+    print_header("STEP 5: META-REGRESSION (Scale -> Performance)")
     mr = results["meta_regression_scale"]
-    print(f"  Predictor:      log₁₀(Parameters)")
+    print(f"  Predictor:      log10(Parameters)")
     print(f"  Intercept:      {mr['intercept']:.4f} (SE = {mr['intercept_se']:.4f}), "
           f"p {format_p(mr['intercept_p'])}")
-    print(f"  Slope (β₁):     {mr['slope']:.4f} (SE = {mr['slope_se']:.4f}), "
+    print(f"  Slope (beta1):     {mr['slope']:.4f} (SE = {mr['slope_se']:.4f}), "
           f"p {format_p(mr['slope_p'])}")
-    print(f"  R²:             {mr['R_sq']:.4f}")
+    print(f"  R^2:             {mr['R_sq']:.4f}")
     print(f"  QM({mr['QM_df']}):          {mr['QM']:.2f}, p {format_p(mr['QM_p'])}")
     print(f"  QE({mr['QE_df']}):          {mr['QE']:.2f}")
 
@@ -192,14 +192,14 @@ def main():
     year_map = results["data"].drop_duplicates("model").set_index("model")["year"]
     es_df_with_year["year"] = es_df_with_year["model"].map(year_map)
     mr_multi = meta_regression_multivariate(es_df_with_year, ["log_params", "year"])
-    print(f"  Predictors:     log₁₀(Parameters), Publication Year")
+    print(f"  Predictors:     log10(Parameters), Publication Year")
     print(f"  Intercept:      {mr_multi['intercept']:.4f} (SE = {mr_multi['intercept_se']:.4f}), "
           f"p {format_p(mr_multi['intercept_p'])}")
-    print(f"  log_params (β₁): {mr_multi['log_params_coef']:.4f} "
+    print(f"  log_params (beta1): {mr_multi['log_params_coef']:.4f} "
           f"(SE = {mr_multi['log_params_se']:.4f}), p {format_p(mr_multi['log_params_p'])}")
-    print(f"  year (β₂):      {mr_multi['year_coef']:.4f} "
+    print(f"  year (beta2):      {mr_multi['year_coef']:.4f} "
           f"(SE = {mr_multi['year_se']:.4f}), p {format_p(mr_multi['year_p'])}")
-    print(f"  R²:             {mr_multi['R_sq']:.4f}")
+    print(f"  R^2:             {mr_multi['R_sq']:.4f}")
     print(f"  QM({mr_multi['QM_df']}):          {mr_multi['QM']:.2f}, p {format_p(mr_multi['QM_p'])}")
     
     # ================================================================
@@ -212,7 +212,7 @@ def main():
     print(f"    Intercept = {eg['intercept']:.4f} (SE = {eg['intercept_se']:.4f})")
     print(f"    t = {eg['intercept_t']:.4f}, p {format_p(eg['intercept_p'])}")
     bias = "DETECTED" if eg['intercept_p'] < 0.05 else "NOT DETECTED"
-    print(f"    Funnel asymmetry: {bias} (α = 0.05)")
+    print(f"    Funnel asymmetry: {bias} (alpha = 0.05)")
     
     tf = results["trim_and_fill"]
     print(f"\n  Trim-and-Fill Analysis:")
@@ -234,7 +234,7 @@ def main():
     # ================================================================
     print_header("STEP 8: SCALE-PERFORMANCE ANALYSIS (Per Benchmark)")
     sr = results["scale_regression"]
-    print(f"\n  {'Benchmark':<15} {'r':>8} {'r²':>8} {'p':>10} {'ρ':>8} {'n':>4}")
+    print(f"\n  {'Benchmark':<15} {'r':>8} {'r^2':>8} {'p':>10} {'rho':>8} {'n':>4}")
     print(f"  {'-'*55}")
     for bench, res in sorted(sr.items()):
         if bench == "overall":
@@ -254,7 +254,7 @@ def main():
     kw_train = results["kw_training"]
     print(f"\n  By Training Strategy:")
     print(f"    H = {kw_train['H']:.2f}, p {format_p(kw_train['p'])}, "
-          f"η² = {kw_train['eta_sq']:.3f}")
+          f"eta^2 = {kw_train['eta_sq']:.3f}")
     for group, stats_d in kw_train['group_stats'].items():
         print(f"    {group}: Mdn = {stats_d['median']:.3f}, "
               f"M = {stats_d['mean']:.3f}, SD = {stats_d['std']:.3f}, "
@@ -263,7 +263,7 @@ def main():
     kw_enc = results["kw_encoder"]
     print(f"\n  By Vision Encoder Family:")
     print(f"    H = {kw_enc['H']:.2f}, p {format_p(kw_enc['p'])}, "
-          f"η² = {kw_enc['eta_sq']:.3f}")
+          f"eta^2 = {kw_enc['eta_sq']:.3f}")
     
     # ================================================================
     # ================================================================
@@ -307,7 +307,7 @@ def main():
     # SE floor sensitivity
     print("\n  SE Floor Sensitivity Analysis:")
     se_sens = multilevel["se_sensitivity"]
-    print(f"    {'Floor':>8} {'Pooled d':>10} {'I²':>8} {'tau²':>8} {'MR slope':>10} {'MR p':>10}")
+    print(f"    {'Floor':>8} {'Pooled d':>10} {'I^2':>8} {'tau^2':>8} {'MR slope':>10} {'MR p':>10}")
     print(f"    {'-'*58}")
     for _, row in se_sens.iterrows():
         print(f"    {row['se_floor']:>8.3f} {row['pooled_d']:>10.4f} "
@@ -335,7 +335,7 @@ def main():
     loo_df = robustness["leave_one_out"]
     max_influence = loo_df.iloc[0]
     print(f"    Most influential model: {max_influence['excluded_model']}")
-    print(f"    Δd when excluded: {max_influence['delta_d']:+.4f}")
+    print(f"    Deltad when excluded: {max_influence['delta_d']:+.4f}")
     print(f"    Range of pooled d: [{loo_df['pooled_d'].min():.4f}, {loo_df['pooled_d'].max():.4f}]")
     
     # 10c: Bootstrap correlations 
@@ -343,13 +343,13 @@ def main():
     boot_df = robustness["bootstrap_correlations"]
     n_reliable = boot_df["reliable"].sum()
     n_total = len(boot_df)
-    print(f"    Reliable pairs (n≥5, CI width<0.8): {n_reliable}/{n_total}")
+    print(f"    Reliable pairs (n>=5, CI width<0.8): {n_reliable}/{n_total}")
     unreliable = boot_df[~boot_df["reliable"]]
     if len(unreliable) > 0:
         print(f"    Unreliable pairs:")
         for _, row in unreliable.iterrows():
             print(f"      {row['benchmark_1']}--{row['benchmark_2']}: "
-                  f"n={row['n']}, ρ={row.get('rho', float('nan')):.3f}")
+                  f"n={row['n']}, rho={row.get('rho', float('nan')):.3f}")
     
     # 10d: Proprietary sensitivity
     print("\n  --- Sensitivity: Excluding Proprietary Models ---")
@@ -358,17 +358,17 @@ def main():
     print(f"    Excluded: {', '.join(sens['excluded_models'])}")
     print(f"    Open-source pooled d: {os_analysis['pooled_d']:.4f} "
           f"[{os_analysis['ci_lower']:.4f}, {os_analysis['ci_upper']:.4f}]")
-    print(f"    Δ pooled d: {sens['delta_pooled_d']:+.4f}")
-    print(f"    Open-source I²: {os_analysis['I_sq']:.1f}% "
-          f"(Δ = {sens['delta_I_sq']:+.1f}%)")
-    print(f"    Open-source meta-regression: β = {sens['open_meta_regression']['slope']:.4f} "
+    print(f"    Delta pooled d: {sens['delta_pooled_d']:+.4f}")
+    print(f"    Open-source I^2: {os_analysis['I_sq']:.1f}% "
+          f"(Delta = {sens['delta_I_sq']:+.1f}%)")
+    print(f"    Open-source meta-regression: beta = {sens['open_meta_regression']['slope']:.4f} "
           f"(p {format_p(sens['open_meta_regression']['slope_p'])})")
     
     # 10e: Influence diagnostics
     print("\n  --- Influence Diagnostics ---")
     inf_df = robustness["influence"]
     n_influential = inf_df["influential"].sum()
-    print(f"    Influential models (|DFBETAS| > 2/√k): {n_influential}")
+    print(f"    Influential models (|DFBETAS| > 2/sqrtk): {n_influential}")
     for _, row in inf_df[inf_df["influential"]].iterrows():
         print(f"      {row['model']}: DFBETAS = {row['dfbetas']:.4f}, "
               f"Cook's D = {row['cooks_distance']:.4f}")
@@ -407,7 +407,7 @@ def main():
     bloo_df = robustness["benchmark_leave_one_out"]
     top_bloo = bloo_df.iloc[0]
     print(f"    Most influential benchmark: {top_bloo['excluded_benchmark']}")
-    print(f"    Δ scale coef: {top_bloo['delta_scale_coef']:+.4f}")
+    print(f"    Delta scale coef: {top_bloo['delta_scale_coef']:+.4f}")
     print(f"    Scale coef range: [{bloo_df['scale_coef'].min():.4f}, {bloo_df['scale_coef'].max():.4f}]")
     
     # ================================================================
@@ -421,14 +421,14 @@ def main():
          "training_strategy", "year"]
     ].sort_values("params_b")
     model_overview.to_csv(os.path.join(tables_dir, "table1_model_overview.csv"), index=False)
-    print(f"  ✓ Table 1: Model overview ({len(model_overview)} models)")
+    print(f"  [OK] Table 1: Model overview ({len(model_overview)} models)")
     
     # Table 2: Raw benchmark scores
     pivot_raw = df.pivot_table(
         index="model", columns="benchmark", values="score"
     ).round(1)
     pivot_raw.to_csv(os.path.join(tables_dir, "table2_raw_scores.csv"))
-    print(f"  ✓ Table 2: Raw benchmark scores")
+    print(f"  [OK] Table 2: Raw benchmark scores")
     
     # Table 3: Effect sizes (including Hedges' g)
     es_export = results["effect_sizes"][
@@ -439,7 +439,7 @@ def main():
     hg_export = hg_df[["model", "hedges_g", "se_g"]].round(4)
     es_export = es_export.merge(hg_export, on="model", how="left")
     es_export.to_csv(os.path.join(tables_dir, "table3_effect_sizes.csv"), index=False)
-    print(f"  ✓ Table 3: Effect sizes with Hedges' g ({len(es_export)} models)")
+    print(f"  [OK] Table 3: Effect sizes with Hedges' g ({len(es_export)} models)")
     
     # Table 4: Meta-analysis summary
     summary = {
@@ -447,8 +447,8 @@ def main():
                       "Egger's Test", "Trim-and-Fill"],
         "Statistic": [
             f"d = {ma['pooled_effect']:.4f} [{ma['pooled_ci_lower']:.4f}, {ma['pooled_ci_upper']:.4f}]",
-            f"I² = {ma['I_sq']:.1f}%, Q({ma['Q_df']}) = {ma['Q']:.2f}, τ² = {ma['tau_sq']:.4f}",
-            f"β₁ = {mr['slope']:.4f}, R² = {mr['R_sq']:.4f}",
+            f"I^2 = {ma['I_sq']:.1f}%, Q({ma['Q_df']}) = {ma['Q']:.2f}, tau^2 = {ma['tau_sq']:.4f}",
+            f"beta1 = {mr['slope']:.4f}, R^2 = {mr['R_sq']:.4f}",
             f"intercept = {eg['intercept']:.4f}, t = {eg['intercept_t']:.4f}",
             f"Missing = {tf['n_missing']}, adj. d = {tf['adjusted_effect']:.4f}",
         ],
@@ -461,19 +461,19 @@ def main():
         ],
     }
     pd.DataFrame(summary).to_csv(os.path.join(tables_dir, "table4_summary.csv"), index=False)
-    print(f"  ✓ Table 4: Analysis summary")
+    print(f"  [OK] Table 4: Analysis summary")
     
     # Table 5: Correlation matrix
     corr.round(3).to_csv(os.path.join(tables_dir, "table5_correlations.csv"))
-    print(f"  ✓ Table 5: Benchmark correlations")
+    print(f"  [OK] Table 5: Benchmark correlations")
     
     # Table 6: Leave-one-out results
     loo_df.round(4).to_csv(os.path.join(tables_dir, "table6_leave_one_out.csv"), index=False)
-    print(f"  ✓ Table 6: Leave-one-out sensitivity")
+    print(f"  [OK] Table 6: Leave-one-out sensitivity")
     
     # Table 7: Bootstrap correlation CIs
     boot_df.round(4).to_csv(os.path.join(tables_dir, "table7_bootstrap_correlations.csv"), index=False)
-    print(f"  ✓ Table 7: Bootstrap correlation CIs")
+    print(f"  [OK] Table 7: Bootstrap correlation CIs")
     
     # Table 8: Efficiency comparison
     # Table 8: Efficiency comparison
@@ -496,7 +496,7 @@ def main():
         ["model", "d", "est_tflops", "eep_score", "pareto_optimal"]
     ].sort_values("eep_score", ascending=False).round(4)
     pareto_data.to_csv(os.path.join(tables_dir, "table8_efficiency.csv"), index=False)
-    print(f"  ✓ Table 8: Efficiency Pareto analysis")
+    print(f"  [OK] Table 8: Efficiency Pareto analysis")
 
     # Table 12: Leave-one-benchmark-out multilevel sensitivity
     bloo_df.round(4).to_csv(
@@ -535,7 +535,7 @@ def main():
     extra_results["pareto_open_best_eep"] = pareto_open["best_eep"]
     with open(os.path.join(tables_dir, "extra_results.json"), "w") as f:
         json.dump(extra_results, f, indent=2, default=str)
-    print(f"  ✓ Extra results saved to {os.path.join(tables_dir, 'extra_results.json')}")
+    print(f"  [OK] Extra results saved to {os.path.join(tables_dir, 'extra_results.json')}")
     
     # ================================================================
     # Final Summary
@@ -544,24 +544,24 @@ def main():
     print(f"""
   Key Findings:
   1. Overall pooled effect: d = {ma['pooled_effect']:.4f} (k = {ma['k']} models)
-  2. Heterogeneity: I² = {ma['I_sq']:.1f}% ({hetero_level})
+  2. Heterogeneity: I^2 = {ma['I_sq']:.1f}% ({hetero_level})
   3. Scale-performance correlation: r = {ov.get('r', 0):.3f} (p {format_p(ov.get('p', 1))})
-  4. Meta-regression slope: β = {mr['slope']:.4f} (p {format_p(mr['slope_p'])})
+  4. Meta-regression slope: beta = {mr['slope']:.4f} (p {format_p(mr['slope_p'])})
   5. Publication bias (Egger's): {bias}
   6. Training strategy effect: H = {kw_train['H']:.2f} (p {format_p(kw_train['p'])})
 
   Robustness Checks:
     7. Hedges' g correlation with d: r = {corr_dg:.6f} (strong agreement)
-  8. Leave-one-out max Δd: {max_influence['delta_d']:+.4f} ({max_influence['excluded_model']})
-  9. Open-source sensitivity: Δd = {sens['delta_pooled_d']:+.4f}
+  8. Leave-one-out max Deltad: {max_influence['delta_d']:+.4f} ({max_influence['excluded_model']})
+  9. Open-source sensitivity: Deltad = {sens['delta_pooled_d']:+.4f}
   10. Pareto-optimal models: {pareto['n_pareto']}
   11. Influential models: {n_influential}
   
     Output Files:
-    - {figures_dir}/ (11 figures)
+    - {figures_dir}/ (12 figures)
     - {tables_dir}/ (13 CSV tables)
   
-  ✓ Pipeline complete. All results are reproducible.
+  [OK] Pipeline complete. All results are reproducible.
     """)
     
     return results, robustness

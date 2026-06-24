@@ -62,7 +62,7 @@ def plot_leave_one_out(loo_df: pd.DataFrame, full_pooled: float, save_path: str)
                   edgecolors="black", linewidth=0.5, zorder=3)
 
         ax.annotate(
-            f"Δd = {row['delta_d']:+.4f}  (I²={row['I_sq']:.1f}%)",
+            f"Deltad = {row['delta_d']:+.4f}  (I^2={row['I_sq']:.1f}%)",
             xy=(row["ci_upper"], i),
             fontsize=9.5, va="center",
             xytext=(5, 0), textcoords="offset points",
@@ -114,12 +114,12 @@ def plot_galbraith(galbraith_df: pd.DataFrame, pooled_effect: float, save_path: 
            color="#2c3e50", linewidth=1.5, linestyle="-",
            label=f"Expected (d = {pooled_effect:.3f})")
 
-    # ±2 SD band (approximate confidence region)
+    # +/-2 SD band (approximate confidence region)
     ax.plot(x_range, pooled_effect * x_range + 2,
            color="#95a5a6", linewidth=0.8, linestyle="--", alpha=0.7)
     ax.plot(x_range, pooled_effect * x_range - 2,
            color="#95a5a6", linewidth=0.8, linestyle="--", alpha=0.7,
-           label="±2 SD bounds")
+           label="+/-2 SD bounds")
 
     # Label outliers
     for _, row in galbraith_df[galbraith_df["outlier"]].iterrows():
@@ -249,7 +249,7 @@ def plot_influence_diagnostics(influence_df: pd.DataFrame, save_path: str):
     # Threshold lines
     threshold = 2.0 / np.sqrt(k)
     ax.axvline(x=threshold, color="#e74c3c", linestyle="--",
-              linewidth=0.8, alpha=0.7, label=f"±{threshold:.2f} threshold")
+              linewidth=0.8, alpha=0.7, label=f"+/-{threshold:.2f} threshold")
     ax.axvline(x=-threshold, color="#e74c3c", linestyle="--",
               linewidth=0.8, alpha=0.7)
     ax.axvline(x=0, color="gray", linestyle="-", linewidth=0.5)
@@ -283,7 +283,7 @@ def plot_influence_diagnostics(influence_df: pd.DataFrame, save_path: str):
     ax2.axhline(y=-2, color="#e74c3c", linestyle="--", linewidth=0.8, alpha=0.5)
     ax2.set_xlabel("Hat Value (Leverage)")
     ax2.set_ylabel("Standardized Residual")
-    ax2.set_title("(b) Residuals vs. Leverage\n(size ∝ Cook's distance)", fontweight="bold")
+    ax2.set_title("(b) Residuals vs. Leverage\n(size  proportional to  Cook's distance)", fontweight="bold")
 
     plt.tight_layout()
     plt.savefig(save_path, bbox_inches="tight")
@@ -341,7 +341,7 @@ def generate_robustness_figures(results: Dict, robustness: Dict, output_dir: str
             os.path.join(output_dir, "fig12_pareto_open_weights.png")
         )
 
-    print("\n✓ All 4 robustness figures generated successfully.")
+    print("\n[OK] All 4 robustness figures generated successfully.")
 
 
 # ============================================================================

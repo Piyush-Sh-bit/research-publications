@@ -145,7 +145,7 @@ def plot_forest(
     ax.set_xlabel("Standardized Effect Size (d)")
     ax.set_title(
         f"Forest Plot: MLLM Performance Meta-Analysis\n"
-        f"I² = {overall_ma['I_sq']:.1f}%, τ² = {overall_ma['tau_sq']:.3f}, "
+        f"I^2 = {overall_ma['I_sq']:.1f}%, tau^2 = {overall_ma['tau_sq']:.3f}, "
         f"Q({overall_ma['Q_df']}) = {overall_ma['Q']:.1f}",
         fontsize=14, fontweight="bold"
     )
@@ -429,7 +429,7 @@ def plot_subgroup_forest(
         ax.annotate(
             f"d = {row['pooled_effect']:.3f}\n"
             f"[{ci_lower:.3f}, {ci_upper:.3f}]\n"
-            f"I² = {row['I_sq']:.1f}%, k = {row['n_models']}",
+            f"I^2 = {row['I_sq']:.1f}%, k = {row['n_models']}",
             xy=(ci_upper, i),
             fontsize=9.5, va="center",
             xytext=(8, 0), textcoords="offset points",
@@ -651,4 +651,4 @@ def generate_all_figures(results: Dict, output_dir: str):
         os.path.join(output_dir, "fig7_training_boxplot.png")
     )
     
-    print("\n✓ All 7 figures generated successfully.")
+    print("\n[OK] All 7 figures generated successfully.")
