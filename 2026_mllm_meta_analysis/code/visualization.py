@@ -73,7 +73,7 @@ def plot_forest(
         Path to save the figure.
     """
     n = len(es_df)
-    fig, ax = plt.subplots(figsize=(10, max(6, n * 0.4 + 2)))
+    fig, ax = plt.subplots(figsize=(11, max(6, n * 0.45 + 2)))
     
     # Sort by effect size
     es_sorted = es_df.sort_values("d", ascending=True).reset_index(drop=True)
@@ -131,14 +131,14 @@ def plot_forest(
     
     all_y = list(y_positions) + [diamond_y]
     ax.set_yticks(all_y)
-    ax.set_yticklabels(labels, fontsize=9)
-    
+    ax.set_yticklabels(labels, fontsize=10.5)
+
     # Right-side annotations (effect size values)
     for i, (_, row) in enumerate(es_sorted.iterrows()):
         ax.annotate(
             f"{row['d']:.2f} [{row['ci_lower']:.2f}, {row['ci_upper']:.2f}]",
             xy=(ax.get_xlim()[1] if ax.get_xlim()[1] > 0 else 2.5, i),
-            fontsize=8, va="center",
+            fontsize=9.5, va="center",
             xytext=(5, 0), textcoords="offset points",
         )
     
@@ -208,8 +208,8 @@ def plot_funnel(
     for _, row in es_df.iterrows():
         ax.annotate(
             row["model"], (row["d"], row["se"]),
-            fontsize=7, ha="center", va="bottom",
-            xytext=(0, 4), textcoords="offset points", alpha=0.7
+            fontsize=8.5, ha="center", va="bottom",
+            xytext=(0, 4), textcoords="offset points", alpha=0.8
         )
     
     # Invert y-axis (convention: more precise at top)
@@ -431,15 +431,15 @@ def plot_subgroup_forest(
             f"[{ci_lower:.3f}, {ci_upper:.3f}]\n"
             f"I² = {row['I_sq']:.1f}%, k = {row['n_models']}",
             xy=(ci_upper, i),
-            fontsize=8, va="center",
+            fontsize=9.5, va="center",
             xytext=(8, 0), textcoords="offset points",
         )
-    
+
     ax.axvline(x=0, color="gray", linestyle="--", linewidth=0.8, alpha=0.7)
-    
+
     labels = [str(row["subgroup"]) for _, row in subgroup_df.iterrows()]
     ax.set_yticks(range(n))
-    ax.set_yticklabels(labels, fontsize=10)
+    ax.set_yticklabels(labels, fontsize=11.5)
     ax.set_xlabel("Pooled Standardized Effect Size (d)")
     ax.set_title(title, fontsize=14, fontweight="bold")
     

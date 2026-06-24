@@ -47,7 +47,7 @@ def plot_leave_one_out(loo_df: pd.DataFrame, full_pooled: float, save_path: str)
     Forest plot showing the pooled estimate when each model is excluded.
     """
     n = len(loo_df)
-    fig, ax = plt.subplots(figsize=(10, max(6, n * 0.35 + 2)))
+    fig, ax = plt.subplots(figsize=(11, max(6, n * 0.4 + 2)))
 
     loo_sorted = loo_df.sort_values("abs_delta", ascending=True).reset_index(drop=True)
 
@@ -64,7 +64,7 @@ def plot_leave_one_out(loo_df: pd.DataFrame, full_pooled: float, save_path: str)
         ax.annotate(
             f"Δd = {row['delta_d']:+.4f}  (I²={row['I_sq']:.1f}%)",
             xy=(row["ci_upper"], i),
-            fontsize=8, va="center",
+            fontsize=9.5, va="center",
             xytext=(5, 0), textcoords="offset points",
         )
 
@@ -74,7 +74,7 @@ def plot_leave_one_out(loo_df: pd.DataFrame, full_pooled: float, save_path: str)
 
     labels = [row["excluded_model"] for _, row in loo_sorted.iterrows()]
     ax.set_yticks(range(n))
-    ax.set_yticklabels(labels, fontsize=9)
+    ax.set_yticklabels(labels, fontsize=10.5)
     ax.set_xlabel("Pooled Effect Size (d) with Model Excluded")
     ax.set_title(
         "Leave-One-Out Sensitivity Analysis\n"
@@ -98,7 +98,7 @@ def plot_galbraith(galbraith_df: pd.DataFrame, pooled_effect: float, save_path: 
     Galbraith (radial) plot: z-score vs. precision.
     Points far from the regression line indicate heterogeneity sources.
     """
-    fig, ax = plt.subplots(figsize=(9, 7))
+    fig, ax = plt.subplots(figsize=(11, 8.5))
 
     colors = np.where(galbraith_df["outlier"], "#e74c3c", "#3498db")
 
@@ -125,7 +125,7 @@ def plot_galbraith(galbraith_df: pd.DataFrame, pooled_effect: float, save_path: 
     for _, row in galbraith_df[galbraith_df["outlier"]].iterrows():
         ax.annotate(
             row["model"], (row["precision"], row["z_score"]),
-            fontsize=7, ha="left", va="bottom",
+            fontsize=8.5, ha="left", va="bottom",
             xytext=(4, 4), textcoords="offset points",
             color="#e74c3c", fontweight="bold"
         )
@@ -134,9 +134,9 @@ def plot_galbraith(galbraith_df: pd.DataFrame, pooled_effect: float, save_path: 
     for _, row in galbraith_df[~galbraith_df["outlier"]].iterrows():
         ax.annotate(
             row["model"], (row["precision"], row["z_score"]),
-            fontsize=5.5, ha="left", va="bottom",
+            fontsize=7, ha="left", va="bottom",
             xytext=(3, 3), textcoords="offset points",
-            alpha=0.6
+            alpha=0.7
         )
 
     n_outliers = galbraith_df["outlier"].sum()
@@ -165,11 +165,11 @@ def plot_pareto_frontier(pareto_data: Dict, save_path: str):
     with the Pareto frontier highlighted.
     """
     df = pareto_data["data"].copy()
-    fig, ax = plt.subplots(figsize=(10, 7))
+    fig, ax = plt.subplots(figsize=(12.5, 8.5))
 
     # Colors: Pareto-optimal vs non-optimal
     pareto_colors = np.where(df["pareto_optimal"], "#e74c3c", "#3498db")
-    pareto_sizes = np.where(df["pareto_optimal"], 120, 60)
+    pareto_sizes = np.where(df["pareto_optimal"], 140, 70)
 
     ax.scatter(
         df["est_tflops"], df["d"],
@@ -187,14 +187,18 @@ def plot_pareto_frontier(pareto_data: Dict, save_path: str):
             alpha=0.5, zorder=2, label="Pareto Frontier"
         )
 
-    # Label all models
-    for _, row in df.iterrows():
+    # Label all models, staggering vertical offset to reduce overlap
+    # among densely-clustered points (sorted by x position)
+    df_sorted = df.sort_values("est_tflops").reset_index(drop=True)
+    for idx, row in df_sorted.iterrows():
         fontweight = "bold" if row["pareto_optimal"] else "normal"
         color = "#c0392b" if row["pareto_optimal"] else "#2c3e50"
+        y_offset = 4 if idx % 2 == 0 else -13
+        va = "bottom" if y_offset > 0 else "top"
         ax.annotate(
             row["model"], (row["est_tflops"], row["d"]),
-            fontsize=7.5, ha="left", va="bottom",
-            xytext=(4, 4), textcoords="offset points",
+            fontsize=9, ha="left", va=va,
+            xytext=(5, y_offset), textcoords="offset points",
             fontweight=fontweight, color=color
         )
 
@@ -228,7 +232,7 @@ def plot_influence_diagnostics(influence_df: pd.DataFrame, save_path: str):
     """
     Bar plot of DFBETAS showing each model's influence on the pooled estimate.
     """
-    fig, axes = plt.subplots(1, 2, figsize=(14, 6))
+    fig, axes = plt.subplots(1, 2, figsize=(16, 7.5))
 
     inf_sorted = influence_df.sort_values("dfbetas", ascending=True).reset_index(drop=True)
     n = len(inf_sorted)
@@ -251,7 +255,7 @@ def plot_influence_diagnostics(influence_df: pd.DataFrame, save_path: str):
     ax.axvline(x=0, color="gray", linestyle="-", linewidth=0.5)
 
     ax.set_yticks(range(n))
-    ax.set_yticklabels(inf_sorted["model"], fontsize=8)
+    ax.set_yticklabels(inf_sorted["model"], fontsize=9.5)
     ax.set_xlabel("DFBETAS")
     ax.set_title("(a) Influence on Pooled Estimate (DFBETAS)", fontweight="bold")
     ax.legend(loc="lower right", fontsize=8)
@@ -270,7 +274,7 @@ def plot_influence_diagnostics(influence_df: pd.DataFrame, save_path: str):
     for _, row in influence_df[influence_df["influential"]].iterrows():
         ax2.annotate(
             row["model"], (row["hat_value"], row["std_residual"]),
-            fontsize=7, ha="left", va="bottom",
+            fontsize=9, ha="left", va="bottom",
             xytext=(4, 4), textcoords="offset points",
             color="#e74c3c", fontweight="bold"
         )
@@ -350,11 +354,11 @@ def plot_open_weights_pareto(pareto_data: Dict, save_path: str):
     with the Pareto frontier highlighted. Excludes proprietary models.
     """
     df = pareto_data["data"].copy()
-    fig, ax = plt.subplots(figsize=(10, 7))
+    fig, ax = plt.subplots(figsize=(12.5, 8.5))
 
     # Colors: Pareto-optimal vs non-optimal
     pareto_colors = np.where(df["pareto_optimal"], "#e74c3c", "#2ecc71")
-    pareto_sizes = np.where(df["pareto_optimal"], 120, 60)
+    pareto_sizes = np.where(df["pareto_optimal"], 140, 70)
 
     ax.scatter(
         df["est_tflops"], df["d"],
@@ -372,14 +376,18 @@ def plot_open_weights_pareto(pareto_data: Dict, save_path: str):
             alpha=0.5, zorder=2, label="Open-Weights Pareto Frontier"
         )
 
-    # Label all models
-    for _, row in df.iterrows():
+    # Label all models, staggering vertical offset to reduce overlap
+    # among densely-clustered points (sorted by x position)
+    df_sorted = df.sort_values("est_tflops").reset_index(drop=True)
+    for idx, row in df_sorted.iterrows():
         fontweight = "bold" if row["pareto_optimal"] else "normal"
         color = "#c0392b" if row["pareto_optimal"] else "#2c3e50"
+        y_offset = 4 if idx % 2 == 0 else -13
+        va = "bottom" if y_offset > 0 else "top"
         ax.annotate(
             row["model"], (row["est_tflops"], row["d"]),
-            fontsize=7.5, ha="left", va="bottom",
-            xytext=(4, 4), textcoords="offset points",
+            fontsize=9, ha="left", va=va,
+            xytext=(5, y_offset), textcoords="offset points",
             fontweight=fontweight, color=color
         )
 
