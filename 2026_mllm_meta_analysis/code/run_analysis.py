@@ -1,3 +1,4 @@
+﻿# Author: Piyush Sharma
 """
 run_analysis.py
 ================
@@ -45,7 +46,6 @@ from statistical_analysis import (
     trim_and_fill,
     benchmark_correlation_matrix,
     scale_performance_regression,
-    kruskal_wallis_by_group,
 )
 from visualization import generate_all_figures
 from robustness_analysis import run_robustness_analyses
@@ -245,25 +245,6 @@ def main():
     ov = sr.get("overall", {})
     print(f"  {'OVERALL':<15} {ov.get('r',0):>8.3f} {ov.get('r_sq',0):>8.3f} "
           f"{ov.get('p',1):>10.4f} {'---':>8} {ov.get('n',0):>4}")
-    
-    # ================================================================
-    # Step 9: Kruskal-Wallis Tests
-    # ================================================================
-    print_header("STEP 9: KRUSKAL-WALLIS GROUP COMPARISONS")
-    
-    kw_train = results["kw_training"]
-    print(f"\n  By Training Strategy:")
-    print(f"    H = {kw_train['H']:.2f}, p {format_p(kw_train['p'])}, "
-          f"eta^2 = {kw_train['eta_sq']:.3f}")
-    for group, stats_d in kw_train['group_stats'].items():
-        print(f"    {group}: Mdn = {stats_d['median']:.3f}, "
-              f"M = {stats_d['mean']:.3f}, SD = {stats_d['std']:.3f}, "
-              f"n = {stats_d['n']}")
-    
-    kw_enc = results["kw_encoder"]
-    print(f"\n  By Vision Encoder Family:")
-    print(f"    H = {kw_enc['H']:.2f}, p {format_p(kw_enc['p'])}, "
-          f"eta^2 = {kw_enc['eta_sq']:.3f}")
     
     # ================================================================
     # ================================================================
@@ -548,14 +529,13 @@ def main():
   3. Scale-performance correlation: r = {ov.get('r', 0):.3f} (p {format_p(ov.get('p', 1))})
   4. Meta-regression slope: beta = {mr['slope']:.4f} (p {format_p(mr['slope_p'])})
   5. Publication bias (Egger's): {bias}
-  6. Training strategy effect: H = {kw_train['H']:.2f} (p {format_p(kw_train['p'])})
 
   Robustness Checks:
-    7. Hedges' g correlation with d: r = {corr_dg:.6f} (strong agreement)
-  8. Leave-one-out max Deltad: {max_influence['delta_d']:+.4f} ({max_influence['excluded_model']})
-  9. Open-source sensitivity: Deltad = {sens['delta_pooled_d']:+.4f}
-  10. Pareto-optimal models: {pareto['n_pareto']}
-  11. Influential models: {n_influential}
+    6. Hedges' g correlation with d: r = {corr_dg:.6f} (strong agreement)
+  7. Leave-one-out max Deltad: {max_influence['delta_d']:+.4f} ({max_influence['excluded_model']})
+  8. Open-source sensitivity: Deltad = {sens['delta_pooled_d']:+.4f}
+  9. Pareto-optimal models: {pareto['n_pareto']}
+  10. Influential models: {n_influential}
   
     Output Files:
     - {figures_dir}/ (12 figures)
