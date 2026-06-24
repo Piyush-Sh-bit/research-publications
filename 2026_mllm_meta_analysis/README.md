@@ -62,7 +62,6 @@ This will:
 | Cochran's Q, I², τ² | `statistical_analysis.py` | Heterogeneity assessment |
 | Meta-regression (WLS) | `statistical_analysis.py` | Scale as moderator |
 | Egger's test & Trim-and-fill | `statistical_analysis.py` | Publication bias assessment |
-| Kruskal-Wallis H | `statistical_analysis.py` | Group comparisons |
 | Spearman ρ | `statistical_analysis.py` | Benchmark correlations |
 | Leave-one-out / Sensitivity | `robustness_analysis.py` | Sensitivity analysis and robustness checks |
 | Influence diagnostics | `robustness_analysis.py` | Cook's distance, DFBETAS, Galbraith plots |
