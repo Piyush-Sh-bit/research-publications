@@ -44,7 +44,6 @@ Each publication is contained entirely within its own folder to prevent dependen
 
 * **Author:** Piyush Sharma
 * **Contact:** piyush.sh.rsh@gmail.com
-* **Institution:** Department of Computer Science and Engineering, Lovely Professional University, Phagwara, India
 
 Feel free to open an Issue if you have questions regarding the methodology or codebase for any of the papers, or reach out to me directly via email. 
 
