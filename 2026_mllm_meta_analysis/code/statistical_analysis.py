@@ -1,4 +1,3 @@
-﻿# Author: Piyush Sharma
 """
 statistical_analysis.py
 ========================
@@ -235,6 +234,28 @@ def subgroup_meta_analysis(
 # 4. Meta-Regression
 # ============================================================================
 
+def _standard_meta_r2(d, v, X, tau_sq_null):
+    """
+    Standard meta-regression R^2 = proportional reduction in between-study
+    heterogeneity (tau^2), following the metafor convention:
+        R^2 = (tau^2_null - tau^2_residual) / tau^2_null.
+    Residual tau^2 is estimated by the method of moments using fixed-effect
+    weights (1 / v).
+    """
+    d = np.asarray(d, dtype=float)
+    v = np.asarray(v, dtype=float)
+    X = np.asarray(X, dtype=float)
+    k, p = X.shape
+    w = 1.0 / v
+    XtWX_inv = np.linalg.inv(X.T @ (X * w[:, None]))
+    beta = XtWX_inv @ (X.T @ (w * d))
+    resid = d - X @ beta
+    QE = float((w * resid ** 2).sum())
+    trace_term = float(w.sum() - np.trace(XtWX_inv @ (X.T @ ((w ** 2)[:, None] * X))))
+    tau_sq_resid = max(0.0, (QE - (k - p)) / trace_term) if trace_term > 0 else 0.0
+    return max(0.0, (tau_sq_null - tau_sq_resid) / tau_sq_null) if tau_sq_null > 0 else 0.0
+
+
 def meta_regression(
     es_df: pd.DataFrame, 
     predictor: str = "log_params"
@@ -279,9 +300,8 @@ def meta_regression(
     QM_df = 1
     QM_p = 1.0 - stats.chi2.cdf(QM, QM_df) if QM > 0 else 1.0
     
-    # Proportion of heterogeneity explained
-    overall_QE = overall["Q"]
-    R_sq = max(0, 1.0 - QE / overall_QE) if overall_QE > 0 else 0.0
+    # Proportion of heterogeneity explained (standard tau^2-reduction R^2)
+    R_sq = _standard_meta_r2(d, v, X, tau_sq)
     
     return {
         "intercept": wls.params[0],
@@ -350,9 +370,8 @@ def meta_regression_multivariate(
     QM_df = len(predictors)
     QM_p = 1.0 - stats.chi2.cdf(QM, QM_df) if QM > 0 else 1.0
 
-    # Proportion of heterogeneity explained
-    overall_QE = overall["Q"]
-    R_sq = max(0, 1.0 - QE / overall_QE) if overall_QE > 0 else 0.0
+    # Proportion of heterogeneity explained (standard tau^2-reduction R^2)
+    R_sq = _standard_meta_r2(d, v, X, tau_sq)
 
     result = {
         "intercept": float(wls.params[0]),

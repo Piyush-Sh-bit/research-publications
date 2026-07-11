@@ -1,6 +1,5 @@
-# Author: Piyush Sharma
-import sys, json
-sys.path.insert(0, "code")
+import sys, json, os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from multilevel_analysis import run_multilevel_analyses
 from data_collection import get_benchmark_data, get_benchmark_metadata
 from statistical_analysis import normalize_scores
@@ -39,6 +38,6 @@ out.append("MODERATORS")
 for _, r in ml["moderator_table"].iterrows():
     out.append(f"[{r['model']}] {r['parameter']}: {r['coefficient']:.4f} [{r['ci_lower']:.3f},{r['ci_upper']:.3f}] p={r['p']:.4f}")
 
-with open("paper/tables/ml_clean.txt", "w", encoding="utf-8") as f:
+with open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "tables", "ml_clean.txt"), "w", encoding="utf-8") as f:
     f.write("\n".join(out))
 print("Done")

@@ -1,4 +1,3 @@
-# Author: Piyush Sharma
 """
 data_collection.py
 ==================
@@ -21,6 +20,52 @@ Scores are on benchmark-native scales (percentage for most, raw score for MME).
 
 import pandas as pd
 import numpy as np
+import os
+
+# --------------------------------------------------------------------------
+# Optional expansion: additional (newer) models are loaded from an external CSV
+# so the original, published 21-model dataset stays untouched and every added
+# value is auditable (each row carries its own `source`). If new_models.csv is
+# absent or empty, the pipeline runs on the original dataset unchanged.
+# --------------------------------------------------------------------------
+_NEW_MODELS_CSV = os.path.join(os.path.dirname(__file__), "new_models.csv")
+_EXP_BENCHMARKS = ["MMBench", "SEED-Bench", "MM-Vet", "MME", "TextVQA", "POPE", "VQAv2"]
+
+
+def _load_new_models(path: str = _NEW_MODELS_CSV) -> list:
+    """Load additional models from a wide-format CSV (one row per model) and
+    return long-format records. Returns [] if the file is missing or empty.
+
+    Expected columns: model, params_b, vision_encoder, llm_backbone,
+    training_strategy, year, source, plus one column per benchmark in
+    _EXP_BENCHMARKS. Blank benchmark cells are skipped (treated as
+    'not reported'), exactly like missing scores in the original data.
+    """
+    if not os.path.exists(path):
+        return []
+    try:
+        w = pd.read_csv(path)
+    except Exception:
+        return []
+    if "model" not in w.columns:
+        return []
+    w = w.dropna(subset=["model"])
+    recs = []
+    for _, r in w.iterrows():
+        for b in _EXP_BENCHMARKS:
+            if b in w.columns and pd.notna(r.get(b)) and str(r.get(b)).strip() != "":
+                recs.append({
+                    "model": str(r["model"]).strip(),
+                    "params_b": float(r["params_b"]),
+                    "vision_encoder": str(r["vision_encoder"]).strip(),
+                    "llm_backbone": str(r["llm_backbone"]).strip(),
+                    "training_strategy": str(r["training_strategy"]).strip(),
+                    "benchmark": b,
+                    "score": float(r[b]),
+                    "year": int(r["year"]),
+                    "source": str(r["source"]).strip(),
+                })
+    return recs
 
 
 def get_benchmark_data() -> pd.DataFrame:
@@ -423,8 +468,9 @@ def get_benchmark_data() -> pd.DataFrame:
          "benchmark": "TextVQA", "score": 64.7, "year": 2024, "source": "lu2024deepseekvl"},
     ]
     
+    records = records + _load_new_models()
     df = pd.DataFrame(records)
-    
+
     # Add derived columns
     df["log_params"] = np.log10(df["params_b"])
     df["scale_category"] = pd.cut(
@@ -448,7 +494,7 @@ def get_benchmark_data() -> pd.DataFrame:
         "multi_encoder": "multi_encoder",
         "proprietary": "proprietary",
     }
-    df["encoder_family"] = df["vision_encoder"].map(encoder_map)
+    df["encoder_family"] = df["vision_encoder"].map(encoder_map).fillna(df["vision_encoder"])
     
     return df
 

@@ -1,4 +1,3 @@
-﻿# Author: Piyush Sharma
 """
 visualization_robustness.py
 ============================
@@ -284,7 +283,7 @@ def plot_influence_diagnostics(influence_df: pd.DataFrame, save_path: str):
     ax2.axhline(y=-2, color="#e74c3c", linestyle="--", linewidth=0.8, alpha=0.5)
     ax2.set_xlabel("Hat Value (Leverage)")
     ax2.set_ylabel("Standardized Residual")
-    ax2.set_title("(b) Residuals vs. Leverage\n(size  proportional to Cook's distance)", fontweight="bold")
+    ax2.set_title("(b) Residuals vs. Leverage\n(size  proportional to  Cook's distance)", fontweight="bold")
 
     plt.tight_layout()
     plt.savefig(save_path, bbox_inches="tight")

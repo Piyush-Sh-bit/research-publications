@@ -1,4 +1,3 @@
-﻿# Author: Piyush Sharma
 """
 run_analysis.py
 ================
@@ -78,8 +77,8 @@ def main():
     # ================================================================
     script_dir = os.path.dirname(os.path.abspath(__file__))
     project_dir = os.path.dirname(script_dir)
-    figures_dir = os.path.join(project_dir, "paper", "figures")
-    tables_dir = os.path.join(project_dir, "paper", "tables")
+    figures_dir = os.path.join(project_dir, "figures")
+    tables_dir = os.path.join(project_dir, "tables")
     os.makedirs(figures_dir, exist_ok=True)
     os.makedirs(tables_dir, exist_ok=True)
     
