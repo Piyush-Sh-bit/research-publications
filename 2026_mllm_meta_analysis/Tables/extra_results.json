@@ -1,0 +1,99 @@
+{
+  "mr_multi": {
+    "intercept": -3049.208216897554,
+    "intercept_se": 473.6778236011617,
+    "intercept_p": 4.6602710226918466e-06,
+    "R_sq": 0.6933973025609093,
+    "QM": 20.237476799694075,
+    "QM_df": 2,
+    "QM_p": 4.031695733996976e-05,
+    "QE": 6.179749644648112,
+    "QE_df": 18,
+    "n": 21,
+    "predictors": [
+      "log_params",
+      "year"
+    ],
+    "log_params_coef": 1.1463563420741776,
+    "log_params_se": 0.18427930632008732,
+    "log_params_p": 7.19368907763294e-06,
+    "log_params_ci_lower": 0.7591998858659909,
+    "log_params_ci_upper": 1.5335127982823642,
+    "year_coef": 1.5060995702396034,
+    "year_se": 0.23403403267976988,
+    "year_p": 4.678088319762341e-06,
+    "year_ci_lower": 1.0144123128162017,
+    "year_ci_upper": 1.997786827663005
+  },
+  "vqav2_bootstrap": [
+    {
+      "benchmark_1": "MM-Vet",
+      "benchmark_2": "VQAv2",
+      "n": 5,
+      "rho": 0.9999999999999999,
+      "ci_lower": 0.9999999999999999,
+      "ci_upper": 1.0,
+      "ci_width": 1.1102230246251565e-16,
+      "reliable": true
+    },
+    {
+      "benchmark_1": "MMBench",
+      "benchmark_2": "VQAv2",
+      "n": 5,
+      "rho": 0.7999999999999999,
+      "ci_lower": 0.1111111111111111,
+      "ci_upper": 1.0,
+      "ci_width": 0.8888888888888888,
+      "reliable": false
+    },
+    {
+      "benchmark_1": "MME",
+      "benchmark_2": "VQAv2",
+      "n": 5,
+      "rho": 0.8999999999999998,
+      "ci_lower": 0.1111111111111111,
+      "ci_upper": 1.0,
+      "ci_width": 0.8888888888888888,
+      "reliable": false
+    },
+    {
+      "benchmark_1": "POPE",
+      "benchmark_2": "VQAv2",
+      "n": 2,
+      "rho": NaN,
+      "ci_lower": NaN,
+      "ci_upper": NaN,
+      "ci_width": NaN,
+      "reliable": false
+    },
+    {
+      "benchmark_1": "SEED-Bench",
+      "benchmark_2": "VQAv2",
+      "n": 5,
+      "rho": 0.9999999999999999,
+      "ci_lower": 0.9999999999999999,
+      "ci_upper": 1.0,
+      "ci_width": 1.1102230246251565e-16,
+      "reliable": true
+    },
+    {
+      "benchmark_1": "TextVQA",
+      "benchmark_2": "VQAv2",
+      "n": 4,
+      "rho": 1.0,
+      "ci_lower": 1.0,
+      "ci_upper": 1.0,
+      "ci_width": 0.0,
+      "reliable": false
+    }
+  ],
+  "pareto_open_models": [
+    "Yi-VL-6B",
+    "ShareGPT4V-7B",
+    "DeepSeek-VL-7B",
+    "Cambrian-1-8B",
+    "InternVL-Chat-V1.5"
+  ],
+  "pareto_open_n": 5,
+  "pareto_open_best_eep": "Cambrian-1-8B"
+}
