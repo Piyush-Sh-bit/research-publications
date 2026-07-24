@@ -1,0 +1,760 @@
+7.8s 1 0.00s - Debugger warning: It seems that frozen modules are being used, which may
+7.8s 2 0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+7.8s 3 0.00s - to python to disable frozen modules.
+7.8s 4 0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+8.4s 5 0.00s - Debugger warning: It seems that frozen modules are being used, which may
+8.4s 6 0.00s - make the debugger miss breakpoints. Please pass -Xfrozen_modules=off
+8.4s 7 0.00s - to python to disable frozen modules.
+8.4s 8 0.00s - Note: Debugging will proceed. Set PYDEVD_DISABLE_FILE_VALIDATION=1 to disable this validation.
+13.0s 9 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 60.7/60.7 MB 33.4 MB/s eta 0:00:00
+13.2s 10 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 60.7/60.7 MB 33.4 MB/s eta 0:00:00
+17.1s 11 Using code from: /kaggle/input/datasets/piyushsharma5654/code-base
+44.1s 12 Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+44.1s 13 
+44.1s 14 Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+44.1s 15 
+44.1s 16 ########################  TIER: small  (16 models)  ########################
+44.1s 17 
+44.1s 18 === google-bert/bert-base-uncased ===
+49.6s 19 BertModel LOAD REPORT from: google-bert/bert-base-uncased
+49.6s 20 Key                                        | Status     |  |
+49.6s 21 -------------------------------------------+------------+--+-
+49.6s 22 cls.predictions.transform.dense.weight     | UNEXPECTED |  |
+49.6s 23 cls.seq_relationship.bias                  | UNEXPECTED |  |
+49.6s 24 cls.predictions.transform.LayerNorm.weight | UNEXPECTED |  |
+49.6s 25 cls.predictions.bias                       | UNEXPECTED |  |
+49.6s 26 cls.predictions.transform.LayerNorm.bias   | UNEXPECTED |  |
+49.6s 27 cls.seq_relationship.weight                | UNEXPECTED |  |
+49.6s 28 cls.predictions.transform.dense.bias       | UNEXPECTED |  |
+49.6s 29 
+49.6s 30 Notes:
+49.6s 31 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+49.6s 32 
+49.6s 33 BertModel LOAD REPORT from: google-bert/bert-base-uncased
+49.6s 34 Key                                        | Status     |  |
+49.6s 35 -------------------------------------------+------------+--+-
+49.6s 36 cls.predictions.transform.dense.weight     | UNEXPECTED |  |
+49.6s 37 cls.seq_relationship.bias                  | UNEXPECTED |  |
+49.6s 38 cls.predictions.transform.LayerNorm.weight | UNEXPECTED |  |
+49.6s 39 cls.predictions.bias                       | UNEXPECTED |  |
+49.6s 40 cls.predictions.transform.LayerNorm.bias   | UNEXPECTED |  |
+49.6s 41 cls.seq_relationship.weight                | UNEXPECTED |  |
+49.6s 42 cls.predictions.transform.dense.bias       | UNEXPECTED |  |
+49.6s 43 
+49.6s 44 Notes:
+49.6s 45 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+158.6s 46 Repo card metadata block was not found. Setting CardData to empty.
+158.6s 47 
+158.6s 48 Repo card metadata block was not found. Setting CardData to empty.
+180.0s 49 [cache] evicted google-bert/bert-base-uncased (441.1M)
+180.0s 50 [ckpt] 1/16 models saved -> /kaggle/working/results/results.json
+180.0s 51 
+180.0s 52 === FacebookAI/roberta-base ===
+184.2s 53 RobertaModel LOAD REPORT from: FacebookAI/roberta-base
+184.2s 54 Key                             | Status     |
+184.2s 55 --------------------------------+------------+-
+184.2s 56 lm_head.layer_norm.weight       | UNEXPECTED |
+184.2s 57 lm_head.layer_norm.bias         | UNEXPECTED |
+184.2s 58 lm_head.dense.weight            | UNEXPECTED |
+184.2s 59 lm_head.dense.bias              | UNEXPECTED |
+184.2s 60 roberta.embeddings.position_ids | UNEXPECTED |
+184.2s 61 lm_head.bias                    | UNEXPECTED |
+184.2s 62 pooler.dense.bias               | MISSING    |
+184.2s 63 pooler.dense.weight             | MISSING    |
+184.2s 64 
+184.2s 65 Notes:
+184.2s 66 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+184.2s 67 - MISSING	:those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+184.2s 68 
+184.2s 69 RobertaModel LOAD REPORT from: FacebookAI/roberta-base
+184.2s 70 Key                             | Status     |
+184.2s 71 --------------------------------+------------+-
+184.2s 72 lm_head.layer_norm.weight       | UNEXPECTED |
+184.2s 73 lm_head.layer_norm.bias         | UNEXPECTED |
+184.2s 74 lm_head.dense.weight            | UNEXPECTED |
+184.2s 75 lm_head.dense.bias              | UNEXPECTED |
+184.2s 76 roberta.embeddings.position_ids | UNEXPECTED |
+184.2s 77 lm_head.bias                    | UNEXPECTED |
+184.2s 78 pooler.dense.bias               | MISSING    |
+184.2s 79 pooler.dense.weight             | MISSING    |
+184.2s 80 
+184.2s 81 Notes:
+184.2s 82 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+184.2s 83 - MISSING	:those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+268.2s 84 Repo card metadata block was not found. Setting CardData to empty.
+268.2s 85 
+268.2s 86 Repo card metadata block was not found. Setting CardData to empty.
+288.5s 87 [cache] evicted FacebookAI/roberta-base (501.5M)
+288.5s 88 [ckpt] 2/16 models saved -> /kaggle/working/results/results.json
+288.5s 89 
+288.5s 90 === distilbert-base-uncased ===
+291.8s 91 DistilBertModel LOAD REPORT from: distilbert-base-uncased
+291.8s 92 Key                     | Status     |  |
+291.8s 93 ------------------------+------------+--+-
+291.8s 94 vocab_transform.weight  | UNEXPECTED |  |
+291.8s 95 vocab_projector.bias    | UNEXPECTED |  |
+291.8s 96 vocab_layer_norm.weight | UNEXPECTED |  |
+291.8s 97 vocab_layer_norm.bias   | UNEXPECTED |  |
+291.8s 98 vocab_transform.bias    | UNEXPECTED |  |
+291.8s 99 
+291.8s 100 Notes:
+291.8s 101 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+291.8s 102 
+291.8s 103 DistilBertModel LOAD REPORT from: distilbert-base-uncased
+291.8s 104 Key                     | Status     |  |
+291.8s 105 ------------------------+------------+--+-
+291.8s 106 vocab_transform.weight  | UNEXPECTED |  |
+291.8s 107 vocab_projector.bias    | UNEXPECTED |  |
+291.8s 108 vocab_layer_norm.weight | UNEXPECTED |  |
+291.8s 109 vocab_layer_norm.bias   | UNEXPECTED |  |
+291.8s 110 vocab_transform.bias    | UNEXPECTED |  |
+291.8s 111 
+291.8s 112 Notes:
+291.8s 113 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+358.3s 114 Repo card metadata block was not found. Setting CardData to empty.
+358.3s 115 
+358.3s 116 Repo card metadata block was not found. Setting CardData to empty.
+370.5s 117 [cache] evicted distilbert-base-uncased (268.7M)
+370.5s 118 [ckpt] 3/16 models saved -> /kaggle/working/results/results.json
+370.5s 119 
+370.5s 120 === google/electra-base-discriminator ===
+375.8s 121 ElectraModel LOAD REPORT from: google/electra-base-discriminator
+375.8s 122 Key                                               | Status     |  |
+375.8s 123 --------------------------------------------------+------------+--+-
+375.8s 124 discriminator_predictions.dense.weight            | UNEXPECTED |  |
+375.8s 125 discriminator_predictions.dense_prediction.weight | UNEXPECTED |  |
+375.8s 126 electra.embeddings_project.bias                   | UNEXPECTED |  |
+375.8s 127 discriminator_predictions.dense.bias              | UNEXPECTED |  |
+375.8s 128 electra.embeddings_project.weight                 | UNEXPECTED |  |
+375.8s 129 discriminator_predictions.dense_prediction.bias   | UNEXPECTED |  |
+375.8s 130 
+375.8s 131 Notes:
+375.8s 132 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+375.8s 133 
+375.8s 134 ElectraModel LOAD REPORT from: google/electra-base-discriminator
+375.8s 135 Key                                               | Status     |  |
+375.8s 136 --------------------------------------------------+------------+--+-
+375.8s 137 discriminator_predictions.dense.weight            | UNEXPECTED |  |
+375.8s 138 discriminator_predictions.dense_prediction.weight | UNEXPECTED |  |
+375.8s 139 electra.embeddings_project.bias                   | UNEXPECTED |  |
+375.8s 140 discriminator_predictions.dense.bias              | UNEXPECTED |  |
+375.8s 141 electra.embeddings_project.weight                 | UNEXPECTED |  |
+375.8s 142 discriminator_predictions.dense_prediction.bias   | UNEXPECTED |  |
+375.8s 143 
+375.8s 144 Notes:
+375.8s 145 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+469.9s 146 Repo card metadata block was not found. Setting CardData to empty.
+469.9s 147 
+469.9s 148 Repo card metadata block was not found. Setting CardData to empty.
+490.4s 149 [cache] evicted google/electra-base-discriminator (881.4M)
+490.4s 150 [ckpt] 4/16 models saved -> /kaggle/working/results/results.json
+490.4s 151 
+490.4s 152 === EleutherAI/pythia-410m ===
+497.2s 153 GPTNeoXModel LOAD REPORT from: EleutherAI/pythia-410m
+497.2s 154 Key              | Status     |  |
+497.2s 155 -----------------+------------+--+-
+497.2s 156 embed_out.weight | UNEXPECTED |  |
+497.2s 157 
+497.2s 158 Notes:
+497.2s 159 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+497.2s 160 
+497.2s 161 GPTNeoXModel LOAD REPORT from: EleutherAI/pythia-410m
+497.2s 162 Key              | Status     |  |
+497.2s 163 -----------------+------------+--+-
+497.2s 164 embed_out.weight | UNEXPECTED |  |
+497.2s 165 
+497.2s 166 Notes:
+497.2s 167 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+629.1s 168 Repo card metadata block was not found. Setting CardData to empty.
+629.1s 169 
+629.1s 170 Repo card metadata block was not found. Setting CardData to empty.
+654.1s 171 [cache] evicted EleutherAI/pythia-410m (913.5M)
+654.1s 172 [ckpt] 5/16 models saved -> /kaggle/working/results/results.json
+654.1s 173 
+654.1s 174 === EleutherAI/pythia-160m ===
+658.2s 175 GPTNeoXModel LOAD REPORT from: EleutherAI/pythia-160m
+658.2s 176 Key              | Status     |  |
+658.2s 177 -----------------+------------+--+-
+658.2s 178 embed_out.weight | UNEXPECTED |  |
+658.2s 179 
+658.2s 180 Notes:
+658.2s 181 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+658.2s 182 
+658.2s 183 GPTNeoXModel LOAD REPORT from: EleutherAI/pythia-160m
+658.2s 184 Key              | Status     |  |
+658.2s 185 -----------------+------------+--+-
+658.2s 186 embed_out.weight | UNEXPECTED |  |
+658.2s 187 
+658.2s 188 Notes:
+658.2s 189 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+748.1s 190 Repo card metadata block was not found. Setting CardData to empty.
+748.1s 191 
+748.1s 192 Repo card metadata block was not found. Setting CardData to empty.
+761.8s 193 [cache] evicted EleutherAI/pythia-160m (377.1M)
+761.8s 194 [ckpt] 6/16 models saved -> /kaggle/working/results/results.json
+761.8s 195 
+761.8s 196 === openai-community/gpt2 ===
+766.1s 197 GPT2Model LOAD REPORT from: openai-community/gpt2
+766.1s 198 Key                  | Status     |  |
+766.1s 199 ---------------------+------------+--+-
+766.1s 200 h.{0...11}.attn.bias | UNEXPECTED |  |
+766.1s 201 
+766.1s 202 Notes:
+766.1s 203 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+766.1s 204 
+766.1s 205 GPT2Model LOAD REPORT from: openai-community/gpt2
+766.1s 206 Key                  | Status     |  |
+766.1s 207 ---------------------+------------+--+-
+766.1s 208 h.{0...11}.attn.bias | UNEXPECTED |  |
+766.1s 209 
+766.1s 210 Notes:
+766.1s 211 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+859.2s 212 Repo card metadata block was not found. Setting CardData to empty.
+859.2s 213 
+859.2s 214 Repo card metadata block was not found. Setting CardData to empty.
+880.9s 215 [cache] evicted openai-community/gpt2 (551.0M)
+880.9s 216 [ckpt] 7/16 models saved -> /kaggle/working/results/results.json
+880.9s 217 
+880.9s 218 === facebook/opt-350m ===
+1004.9s 219 Repo card metadata block was not found. Setting CardData to empty.
+1004.9s 220 
+1004.9s 221 Repo card metadata block was not found. Setting CardData to empty.
+1028.7s 222 [cache] evicted facebook/opt-350m (1.3G)
+1028.7s 223 [ckpt] 8/16 models saved -> /kaggle/working/results/results.json
+1028.7s 224 
+1028.7s 225 === sentence-transformers/all-mpnet-base-v2 ===
+1033.5s 226 MPNetModel LOAD REPORT from: sentence-transformers/all-mpnet-base-v2
+1033.5s 227 Key                     | Status     |  |
+1033.5s 228 ------------------------+------------+--+-
+1033.5s 229 embeddings.position_ids | UNEXPECTED |  |
+1033.5s 230 
+1033.5s 231 Notes:
+1033.5s 232 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+1033.5s 233 
+1033.5s 234 MPNetModel LOAD REPORT from: sentence-transformers/all-mpnet-base-v2
+1033.5s 235 Key                     | Status     |  |
+1033.5s 236 ------------------------+------------+--+-
+1033.5s 237 embeddings.position_ids | UNEXPECTED |  |
+1033.5s 238 
+1033.5s 239 Notes:
+1033.5s 240 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+1120.6s 241 Repo card metadata block was not found. Setting CardData to empty.
+1120.6s 242 
+1120.6s 243 Repo card metadata block was not found. Setting CardData to empty.
+1141.6s 244 [cache] evicted sentence-transformers/all-mpnet-base-v2 (438.7M)
+1141.6s 245 [ckpt] 9/16 models saved -> /kaggle/working/results/results.json
+1141.6s 246 
+1141.6s 247 === sentence-transformers/all-MiniLM-L12-v2 ===
+1144.6s 248 BertModel LOAD REPORT from: sentence-transformers/all-MiniLM-L12-v2
+1144.6s 249 Key                     | Status     |  |
+1144.6s 250 ------------------------+------------+--+-
+1144.6s 251 embeddings.position_ids | UNEXPECTED |  |
+1144.6s 252 
+1144.6s 253 Notes:
+1144.6s 254 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+1144.6s 255 
+1144.6s 256 BertModel LOAD REPORT from: sentence-transformers/all-MiniLM-L12-v2
+1144.6s 257 Key                     | Status     |  |
+1144.6s 258 ------------------------+------------+--+-
+1144.6s 259 embeddings.position_ids | UNEXPECTED |  |
+1144.6s 260 
+1144.6s 261 Notes:
+1144.6s 262 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+1228.2s 263 Repo card metadata block was not found. Setting CardData to empty.
+1228.2s 264 
+1228.2s 265 Repo card metadata block was not found. Setting CardData to empty.
+1243.4s 266 [cache] evicted sentence-transformers/all-MiniLM-L12-v2 (134.2M)
+1243.4s 267 [ckpt] 10/16 models saved -> /kaggle/working/results/results.json
+1243.4s 268 
+1243.4s 269 === sentence-transformers/all-MiniLM-L6-v2 ===
+1245.6s 270 BertModel LOAD REPORT from: sentence-transformers/all-MiniLM-L6-v2
+1245.6s 271 Key                     | Status     |  |
+1245.6s 272 ------------------------+------------+--+-
+1245.6s 273 embeddings.position_ids | UNEXPECTED |  |
+1245.6s 274 
+1245.6s 275 Notes:
+1245.6s 276 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+1245.6s 277 
+1245.6s 278 BertModel LOAD REPORT from: sentence-transformers/all-MiniLM-L6-v2
+1245.6s 279 Key                     | Status     |  |
+1245.6s 280 ------------------------+------------+--+-
+1245.6s 281 embeddings.position_ids | UNEXPECTED |  |
+1245.6s 282 
+1245.6s 283 Notes:
+1245.6s 284 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+1300.9s 285 Repo card metadata block was not found. Setting CardData to empty.
+1300.9s 286 
+1300.9s 287 Repo card metadata block was not found. Setting CardData to empty.
+1310.6s 288 [cache] evicted sentence-transformers/all-MiniLM-L6-v2 (91.6M)
+1310.6s 289 [ckpt] 11/16 models saved -> /kaggle/working/results/results.json
+1310.6s 290 
+1310.6s 291 === sentence-transformers/paraphrase-mpnet-base-v2 ===
+1315.1s 292 MPNetModel LOAD REPORT from: sentence-transformers/paraphrase-mpnet-base-v2
+1315.1s 293 Key                     | Status     |  |
+1315.1s 294 ------------------------+------------+--+-
+1315.1s 295 embeddings.position_ids | UNEXPECTED |  |
+1315.1s 296 
+1315.1s 297 Notes:
+1315.1s 298 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+1315.1s 299 
+1315.1s 300 MPNetModel LOAD REPORT from: sentence-transformers/paraphrase-mpnet-base-v2
+1315.1s 301 Key                     | Status     |  |
+1315.1s 302 ------------------------+------------+--+-
+1315.1s 303 embeddings.position_ids | UNEXPECTED |  |
+1315.1s 304 
+1315.1s 305 Notes:
+1315.1s 306 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+1400.9s 307 Repo card metadata block was not found. Setting CardData to empty.
+1400.9s 308 
+1400.9s 309 Repo card metadata block was not found. Setting CardData to empty.
+1421.9s 310 [cache] evicted sentence-transformers/paraphrase-mpnet-base-v2 (438.7M)
+1421.9s 311 [ckpt] 12/16 models saved -> /kaggle/working/results/results.json
+1421.9s 312 
+1421.9s 313 === intfloat/e5-base-v2 ===
+1425.5s 314 BertModel LOAD REPORT from: intfloat/e5-base-v2
+1425.5s 315 Key                     | Status     |  |
+1425.5s 316 ------------------------+------------+--+-
+1425.5s 317 embeddings.position_ids | UNEXPECTED |  |
+1425.5s 318 
+1425.5s 319 Notes:
+1425.5s 320 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+1425.5s 321 
+1425.5s 322 BertModel LOAD REPORT from: intfloat/e5-base-v2
+1425.5s 323 Key                     | Status     |  |
+1425.5s 324 ------------------------+------------+--+-
+1425.5s 325 embeddings.position_ids | UNEXPECTED |  |
+1425.5s 326 
+1425.5s 327 Notes:
+1425.5s 328 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+1510.7s 329 Repo card metadata block was not found. Setting CardData to empty.
+1510.7s 330 
+1510.7s 331 Repo card metadata block was not found. Setting CardData to empty.
+1531.8s 332 [cache] evicted intfloat/e5-base-v2 (438.9M)
+1531.8s 333 [ckpt] 13/16 models saved -> /kaggle/working/results/results.json
+1531.8s 334 
+1531.8s 335 === intfloat/e5-small-v2 ===
+1535.1s 336 BertModel LOAD REPORT from: intfloat/e5-small-v2
+1535.1s 337 Key                     | Status     |  |
+1535.1s 338 ------------------------+------------+--+-
+1535.1s 339 embeddings.position_ids | UNEXPECTED |  |
+1535.1s 340 
+1535.1s 341 Notes:
+1535.1s 342 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+1535.1s 343 
+1535.1s 344 BertModel LOAD REPORT from: intfloat/e5-small-v2
+1535.1s 345 Key                     | Status     |  |
+1535.1s 346 ------------------------+------------+--+-
+1535.1s 347 embeddings.position_ids | UNEXPECTED |  |
+1535.1s 348 
+1535.1s 349 Notes:
+1535.1s 350 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+1616.6s 351 Repo card metadata block was not found. Setting CardData to empty.
+1616.6s 352 
+1616.6s 353 Repo card metadata block was not found. Setting CardData to empty.
+1631.3s 354 [cache] evicted intfloat/e5-small-v2 (134.4M)
+1631.3s 355 [ckpt] 14/16 models saved -> /kaggle/working/results/results.json
+1631.3s 356 
+1631.3s 357 === BAAI/bge-base-en-v1.5 ===
+1634.8s 358 BertModel LOAD REPORT from: BAAI/bge-base-en-v1.5
+1634.8s 359 Key                     | Status     |  |
+1634.8s 360 ------------------------+------------+--+-
+1634.8s 361 embeddings.position_ids | UNEXPECTED |  |
+1634.8s 362 
+1634.8s 363 Notes:
+1634.8s 364 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+1634.8s 365 
+1634.8s 366 BertModel LOAD REPORT from: BAAI/bge-base-en-v1.5
+1634.8s 367 Key                     | Status     |  |
+1634.8s 368 ------------------------+------------+--+-
+1634.8s 369 embeddings.position_ids | UNEXPECTED |  |
+1634.8s 370 
+1634.8s 371 Notes:
+1634.8s 372 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+1716.9s 373 Repo card metadata block was not found. Setting CardData to empty.
+1716.9s 374 
+1716.9s 375 Repo card metadata block was not found. Setting CardData to empty.
+1737.8s 376 [cache] evicted BAAI/bge-base-en-v1.5 (438.9M)
+1737.8s 377 [ckpt] 15/16 models saved -> /kaggle/working/results/results.json
+1737.8s 378 
+1737.8s 379 === thenlper/gte-base ===
+1741.3s 380 BertModel LOAD REPORT from: thenlper/gte-base
+1741.3s 381 Key                     | Status     |  |
+1741.3s 382 ------------------------+------------+--+-
+1741.3s 383 embeddings.position_ids | UNEXPECTED |  |
+1741.3s 384 
+1741.3s 385 Notes:
+1741.3s 386 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+1741.3s 387 
+1741.3s 388 BertModel LOAD REPORT from: thenlper/gte-base
+1741.3s 389 Key                     | Status     |  |
+1741.3s 390 ------------------------+------------+--+-
+1741.3s 391 embeddings.position_ids | UNEXPECTED |  |
+1741.3s 392 
+1741.3s 393 Notes:
+1741.3s 394 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+1812.8s 395 Repo card metadata block was not found. Setting CardData to empty.
+1812.8s 396 
+1812.8s 397 Repo card metadata block was not found. Setting CardData to empty.
+1823.3s 398 [cache] evicted thenlper/gte-base (219.9M)
+1823.3s 399 [ckpt] 16/16 models saved -> /kaggle/working/results/results.json
+1823.3s 400 
+1823.3s 401 ================ SUMMARY ================
+1823.3s 402 model                             STS rho  STS regret  last-gap
+1823.3s 403 google-bert/bert-base-uncased       0.374      0.0901    0.0996
+1823.3s 404 FacebookAI/roberta-base            -0.423      0.0818    0.0169
+1823.3s 405 distilbert-base-uncased            -0.571      0.0958    0.0265
+1823.3s 406 google/electra-base-discriminator    0.852      0.0165    0.2873
+1823.3s 407 EleutherAI/pythia-410m              0.544      0.0000    0.0557
+1823.3s 408 EleutherAI/pythia-160m              0.648      0.0000    0.0816
+1823.3s 409 openai-community/gpt2               0.676      0.0660    0.1591
+1823.3s 410 facebook/opt-350m                   0.428      0.0726    0.1087
+1823.3s 411 sentence-transformers/all-mpnet-base-v2   -0.236      0.1444    0.0000
+1823.3s 412 sentence-transformers/all-MiniLM-L12-v2    0.203      0.0000    0.0000
+1823.3s 413 sentence-transformers/all-MiniLM-L6-v2   -0.036      0.0000    0.0000
+1823.3s 414 sentence-transformers/paraphrase-mpnet-base-v2   -0.192      0.1732    0.0000
+1823.3s 415 intfloat/e5-base-v2                -0.456      0.2508    0.0000
+1823.3s 416 intfloat/e5-small-v2                0.253      0.2173    0.0000
+1823.3s 417 BAAI/bge-base-en-v1.5              -0.126      0.2699    0.0000
+1823.3s 418 thenlper/gte-base                  -0.077      0.2653    0.0000
+1823.3s 419 [csv] wrote 80 rows -> /kaggle/working/results/results_small_summary.csv
+1823.3s 420 [csv] geometry-only FAILURE summary -> /kaggle/working/results/results_failure_geometry_v1.csv
+1823.3s 421 
+1823.3s 422 model                        v1_pick  oracle  task rank_agree
+1823.3s 423 google-bert/bert-base-uncase       0       1   STS      0.374
+1823.3s 424 google-bert/bert-base-uncase       0       5 RETRIEVAL     -0.144
+1823.3s 425 google-bert/bert-base-uncase       0       8  sst2     -0.443
+1823.3s 426 google-bert/bert-base-uncase       0       8  trec     -0.514
+1823.3s 427 google-bert/bert-base-uncase       0       8  subj     -0.601
+1823.3s 428 FacebookAI/roberta-base            0       7   STS     -0.423
+1823.3s 429 FacebookAI/roberta-base            0      10 RETRIEVAL      0.074
+1823.3s 430 FacebookAI/roberta-base            0       8  sst2     -0.027
+1823.3s 431 FacebookAI/roberta-base            0       9  trec     -0.198
+1823.3s 432 FacebookAI/roberta-base            0       9  subj      -0.27
+1823.3s 433 distilbert-base-uncased            0       5   STS     -0.571
+1823.3s 434 distilbert-base-uncased            0       1 RETRIEVAL      0.491
+1823.3s 435 distilbert-base-uncased            0       6  sst2     -0.857
+1823.3s 436 distilbert-base-uncased            0       4  trec     -0.679
+1823.3s 437 distilbert-base-uncased            0       5  subj     -0.857
+1823.3s 438 google/electra-base-discrimi       0       1   STS      0.852
+1823.3s 439 google/electra-base-discrimi       0       0 RETRIEVAL      0.851
+1823.3s 440 google/electra-base-discrimi       0       9  sst2     -0.681
+1823.3s 441 google/electra-base-discrimi       0       9  trec     -0.625
+1823.3s 442 google/electra-base-discrimi       0       8  subj     -0.787
+1823.3s 443 EleutherAI/pythia-410m             0       0   STS      0.544
+1823.3s 444 EleutherAI/pythia-410m             0       4 RETRIEVAL      0.723
+1823.3s 445 EleutherAI/pythia-410m             0      11  sst2     -0.658
+1823.3s 446 EleutherAI/pythia-410m             0      22  trec     -0.497
+1823.3s 447 EleutherAI/pythia-410m             0      11  subj     -0.552
+1823.3s 448 EleutherAI/pythia-160m             0       0   STS      0.648
+1823.3s 449 EleutherAI/pythia-160m             0       0 RETRIEVAL      0.462
+1823.3s 450 EleutherAI/pythia-160m             0       5  sst2      -0.71
+1823.3s 451 EleutherAI/pythia-160m             0       8  trec     -0.518
+1823.3s 452 EleutherAI/pythia-160m             0       8  subj     -0.468
+1823.3s 453 openai-community/gpt2              0       1   STS      0.676
+1823.3s 454 openai-community/gpt2              0       9 RETRIEVAL      0.523
+1823.3s 455 openai-community/gpt2              0       6  sst2     -0.154
+1823.3s 456 openai-community/gpt2              0      11  trec     -0.066
+1823.3s 457 openai-community/gpt2              0       9  subj      -0.28
+1823.3s 458 facebook/opt-350m                 23      18   STS      0.428
+1823.3s 459 facebook/opt-350m                 23      14 RETRIEVAL     -0.062
+1823.3s 460 facebook/opt-350m                 23      17  sst2      0.744
+1823.3s 461 facebook/opt-350m                 23      10  trec       0.69
+1823.3s 462 facebook/opt-350m                 23      19  subj      0.755
+1823.3s 463 sentence-transformers/all-mp       0      12   STS     -0.236
+1823.3s 464 sentence-transformers/all-mp       0      12 RETRIEVAL       0.49
+1823.3s 465 sentence-transformers/all-mp       0      11  sst2     -0.819
+1823.3s 466 sentence-transformers/all-mp       0      10  trec     -0.885
+1823.3s 467 sentence-transformers/all-mp       0       9  subj     -0.801
+1823.3s 468 sentence-transformers/all-Mi      12      12   STS      0.203
+1823.3s 469 sentence-transformers/all-Mi      12      11 RETRIEVAL      0.189
+1823.3s 470 sentence-transformers/all-Mi      12      10  sst2     -0.404
+1823.3s 471 sentence-transformers/all-Mi      12      10  trec     -0.342
+1823.3s 472 sentence-transformers/all-Mi      12       6  subj     -0.449
+1823.3s 473 sentence-transformers/all-Mi       6       6   STS     -0.036
+1823.3s 474 sentence-transformers/all-Mi       6       6 RETRIEVAL      0.018
+1823.3s 475 sentence-transformers/all-Mi       6       5  sst2     -0.214
+1823.3s 476 sentence-transformers/all-Mi       6       4  trec     -0.464
+1823.3s 477 sentence-transformers/all-Mi       6       5  subj     -0.714
+1823.3s 478 sentence-transformers/paraph       0      12   STS     -0.192
+1823.3s 479 sentence-transformers/paraph       0      12 RETRIEVAL      0.098
+1823.3s 480 sentence-transformers/paraph       0      11  sst2     -0.495
+1823.3s 481 sentence-transformers/paraph       0      10  trec     -0.638
+1823.3s 482 sentence-transformers/paraph       0       7  subj     -0.625
+1823.3s 483 intfloat/e5-base-v2                0      12   STS     -0.456
+1823.3s 484 intfloat/e5-base-v2                0      12 RETRIEVAL     -0.227
+1823.3s 485 intfloat/e5-base-v2                0      10  sst2     -0.824
+1823.3s 486 intfloat/e5-base-v2                0       9  trec     -0.868
+1823.3s 487 intfloat/e5-base-v2                0       8  subj     -0.824
+1823.3s 488 intfloat/e5-small-v2               0      12   STS      0.253
+1823.3s 489 intfloat/e5-small-v2               0      12 RETRIEVAL      0.453
+1823.3s 490 intfloat/e5-small-v2               0      10  sst2     -0.407
+1823.3s 491 intfloat/e5-small-v2               0      10  trec     -0.531
+1823.3s 492 intfloat/e5-small-v2               0       9  subj     -0.709
+1823.3s 493 BAAI/bge-base-en-v1.5              0      12   STS     -0.126
+1823.3s 494 BAAI/bge-base-en-v1.5              0      12 RETRIEVAL      0.176
+1823.3s 495 BAAI/bge-base-en-v1.5              0      11  sst2     -0.418
+1823.3s 496 BAAI/bge-base-en-v1.5              0       9  trec      -0.81
+1823.3s 497 BAAI/bge-base-en-v1.5              0       9  subj     -0.896
+1823.3s 498 thenlper/gte-base                  0      12   STS     -0.077
+1823.3s 499 thenlper/gte-base                  0      12 RETRIEVAL     -0.314
+1823.3s 500 thenlper/gte-base                  0      11  sst2     -0.577
+1823.3s 501 thenlper/gte-base                  0       9  trec     -0.886
+1823.3s 502 thenlper/gte-base                  0       9  subj     -0.854
+1823.3s 503 
+1823.3s 504 ########################  TIER: medium  (8 models)  ########################
+1823.3s 505 
+1823.3s 506 === EleutherAI/pythia-1.4b ===
+1843.3s 507 GPTNeoXModel LOAD REPORT from: EleutherAI/pythia-1.4b
+1843.3s 508 Key              | Status     |  |
+1843.3s 509 -----------------+------------+--+-
+1843.3s 510 embed_out.weight | UNEXPECTED |  |
+1843.3s 511 
+1843.3s 512 Notes:
+1843.3s 513 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+1843.3s 514 
+1843.3s 515 GPTNeoXModel LOAD REPORT from: EleutherAI/pythia-1.4b
+1843.3s 516 Key              | Status     |  |
+1843.3s 517 -----------------+------------+--+-
+1843.3s 518 embed_out.weight | UNEXPECTED |  |
+1843.3s 519 
+1843.3s 520 Notes:
+1843.3s 521 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+2033.3s 522 Repo card metadata block was not found. Setting CardData to empty.
+2033.3s 523 
+2033.3s 524 Repo card metadata block was not found. Setting CardData to empty.
+2087.7s 525 [cache] evicted EleutherAI/pythia-1.4b (2.9G)
+2087.7s 526 [ckpt] 1/8 models saved -> /kaggle/working/results/results.json
+2087.7s 527 
+2087.7s 528 === EleutherAI/pythia-2.8b ===
+2112.2s 529 GPTNeoXModel LOAD REPORT from: EleutherAI/pythia-2.8b
+2112.2s 530 Key              | Status     |  |
+2112.2s 531 -----------------+------------+--+-
+2112.2s 532 embed_out.weight | UNEXPECTED |  |
+2112.2s 533 
+2112.2s 534 Notes:
+2112.2s 535 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+2112.2s 536 
+2112.2s 537 GPTNeoXModel LOAD REPORT from: EleutherAI/pythia-2.8b
+2112.2s 538 Key              | Status     |  |
+2112.2s 539 -----------------+------------+--+-
+2112.2s 540 embed_out.weight | UNEXPECTED |  |
+2112.2s 541 
+2112.2s 542 Notes:
+2112.2s 543 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+2375.4s 544 Repo card metadata block was not found. Setting CardData to empty.
+2375.4s 545 
+2375.4s 546 Repo card metadata block was not found. Setting CardData to empty.
+2467.7s 547 [cache] evicted EleutherAI/pythia-2.8b (5.7G)
+2467.7s 548 [ckpt] 2/8 models saved -> /kaggle/working/results/results.json
+2467.7s 549 
+2467.7s 550 === EleutherAI/gpt-neo-1.3B ===
+2490.6s 551 GPTNeoModel LOAD REPORT from: EleutherAI/gpt-neo-1.3B
+2490.6s 552 Key                                               | Status     |  |
+2490.6s 553 --------------------------------------------------+------------+--+-
+2490.6s 554 transformer.h.{0...22}.attn.attention.bias        | UNEXPECTED |  |
+2490.6s 555 transformer.h.{0...23}.attn.attention.masked_bias | UNEXPECTED |  |
+2490.6s 556 
+2490.6s 557 Notes:
+2490.6s 558 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+2490.6s 559 
+2490.6s 560 GPTNeoModel LOAD REPORT from: EleutherAI/gpt-neo-1.3B
+2490.6s 561 Key                                               | Status     |  |
+2490.6s 562 --------------------------------------------------+------------+--+-
+2490.6s 563 transformer.h.{0...22}.attn.attention.bias        | UNEXPECTED |  |
+2490.6s 564 transformer.h.{0...23}.attn.attention.masked_bias | UNEXPECTED |  |
+2490.6s 565 
+2490.6s 566 Notes:
+2490.6s 567 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+2895.9s 568 Repo card metadata block was not found. Setting CardData to empty.
+2895.9s 569 
+2895.9s 570 Repo card metadata block was not found. Setting CardData to empty.
+3079.3s 571 [cache] evicted EleutherAI/gpt-neo-1.3B (5.3G)
+3079.3s 572 [ckpt] 3/8 models saved -> /kaggle/working/results/results.json
+3079.3s 573 
+3079.3s 574 === Qwen/Qwen2.5-1.5B ===
+3696.8s 575 Repo card metadata block was not found. Setting CardData to empty.
+3696.8s 576 
+3696.8s 577 Repo card metadata block was not found. Setting CardData to empty.
+3970.1s 578 [cache] evicted Qwen/Qwen2.5-1.5B (3.1G)
+3970.1s 579 [ckpt] 4/8 models saved -> /kaggle/working/results/results.json
+3970.1s 580 
+3970.1s 581 === Qwen/Qwen2.5-3B ===
+5035.7s 582 Repo card metadata block was not found. Setting CardData to empty.
+5035.7s 583 
+5035.7s 584 Repo card metadata block was not found. Setting CardData to empty.
+5594.1s 585 [cache] evicted Qwen/Qwen2.5-3B (6.2G)
+5594.1s 586 [ckpt] 5/8 models saved -> /kaggle/working/results/results.json
+5594.1s 587 
+5594.1s 588 === microsoft/phi-2 ===
+5615.1s 589 PhiModel LOAD REPORT from: microsoft/phi-2
+5615.1s 590 Key            | Status     |  |
+5615.1s 591 ---------------+------------+--+-
+5615.1s 592 lm_head.weight | UNEXPECTED |  |
+5615.1s 593 lm_head.bias   | UNEXPECTED |  |
+5615.1s 594 
+5615.1s 595 Notes:
+5615.1s 596 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+5615.1s 597 
+5615.1s 598 PhiModel LOAD REPORT from: microsoft/phi-2
+5615.1s 599 Key            | Status     |  |
+5615.1s 600 ---------------+------------+--+-
+5615.1s 601 lm_head.weight | UNEXPECTED |  |
+5615.1s 602 lm_head.bias   | UNEXPECTED |  |
+5615.1s 603 
+5615.1s 604 Notes:
+5615.1s 605 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+5876.8s 606 Repo card metadata block was not found. Setting CardData to empty.
+5876.8s 607 
+5876.8s 608 Repo card metadata block was not found. Setting CardData to empty.
+5974.1s 609 [cache] evicted microsoft/phi-2 (5.6G)
+5974.1s 610 [ckpt] 6/8 models saved -> /kaggle/working/results/results.json
+5974.1s 611 
+5974.1s 612 === facebook/opt-1.3b ===
+5983.3s 613 OPTModel LOAD REPORT from: facebook/opt-1.3b
+5983.3s 614 Key            | Status     |  |
+5983.3s 615 ---------------+------------+--+-
+5983.3s 616 lm_head.weight | UNEXPECTED |  |
+5983.3s 617 
+5983.3s 618 Notes:
+5983.3s 619 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+5983.3s 620 
+5983.3s 621 OPTModel LOAD REPORT from: facebook/opt-1.3b
+5983.3s 622 Key            | Status     |  |
+5983.3s 623 ---------------+------------+--+-
+5983.3s 624 lm_head.weight | UNEXPECTED |  |
+5983.3s 625 
+5983.3s 626 Notes:
+5983.3s 627 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+6160.3s 628 Repo card metadata block was not found. Setting CardData to empty.
+6160.3s 629 
+6160.3s 630 Repo card metadata block was not found. Setting CardData to empty.
+6208.0s 631 [cache] evicted facebook/opt-1.3b (5.3G)
+6208.0s 632 [ckpt] 7/8 models saved -> /kaggle/working/results/results.json
+6208.0s 633 
+6208.0s 634 === bigscience/bloom-1b7 ===
+6262.8s 635 [WARN] bigscience/bloom-1b7 failed: linalg.svd: The algorithm failed to converge because the input matrix contained non-finite values.
+6263.7s 636 [cache] evicted bigscience/bloom-1b7 (3.5G)
+6263.7s 637 [ckpt] 8/8 models saved -> /kaggle/working/results/results.json
+6263.7s 638 
+6263.7s 639 ================ SUMMARY ================
+6263.7s 640 model                             STS rho  STS regret  last-gap
+6263.7s 641 EleutherAI/pythia-1.4b              0.852      0.0000    0.0275
+6263.7s 642 EleutherAI/pythia-2.8b              0.811      0.0404    0.0646
+6263.7s 643 EleutherAI/gpt-neo-1.3B             0.751      0.0704    0.0704
+6263.7s 644 Qwen/Qwen2.5-1.5B                   0.356      0.0776    0.1294
+6263.7s 645 Qwen/Qwen2.5-3B                     0.724      0.0879    0.1284
+6263.7s 646 microsoft/phi-2                     0.908      0.0411    0.0411
+6263.7s 647 facebook/opt-1.3b                  -0.210      0.0056    0.0056
+6263.7s 648 [csv] wrote 35 rows -> /kaggle/working/results/results_medium_summary.csv
+6263.7s 649 
+6263.7s 650 ########################  TIER: high1  (2 models)  ########################
+6263.7s 651 
+6263.7s 652 === Qwen/Qwen2.5-7B ===
+6348.9s 653 Qwen2Model LOAD REPORT from: Qwen/Qwen2.5-7B
+6348.9s 654 Key            | Status     |  |
+6348.9s 655 ---------------+------------+--+-
+6348.9s 656 lm_head.weight | UNEXPECTED |  |
+6348.9s 657 
+6348.9s 658 Notes:
+6348.9s 659 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+6348.9s 660 
+6348.9s 661 Qwen2Model LOAD REPORT from: Qwen/Qwen2.5-7B
+6348.9s 662 Key            | Status     |  |
+6348.9s 663 ---------------+------------+--+-
+6348.9s 664 lm_head.weight | UNEXPECTED |  |
+6348.9s 665 
+6348.9s 666 Notes:
+6348.9s 667 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+6951.1s 668 Repo card metadata block was not found. Setting CardData to empty.
+6951.1s 669 
+6951.1s 670 Repo card metadata block was not found. Setting CardData to empty.
+7200.6s 671 [cache] evicted Qwen/Qwen2.5-7B (15.2G)
+7200.6s 672 [ckpt] 1/2 models saved -> /kaggle/working/results/results.json
+7200.6s 673 
+7200.6s 674 === EleutherAI/pythia-6.9b ===
+7276.0s 675 GPTNeoXModel LOAD REPORT from: EleutherAI/pythia-6.9b
+7276.0s 676 Key              | Status     |  |
+7276.0s 677 -----------------+------------+--+-
+7276.0s 678 embed_out.weight | UNEXPECTED |  |
+7276.0s 679 
+7276.0s 680 Notes:
+7276.0s 681 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+7276.0s 682 
+7276.0s 683 GPTNeoXModel LOAD REPORT from: EleutherAI/pythia-6.9b
+7276.0s 684 Key              | Status     |  |
+7276.0s 685 -----------------+------------+--+-
+7276.0s 686 embed_out.weight | UNEXPECTED |  |
+7276.0s 687 
+7276.0s 688 Notes:
+7276.0s 689 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+7714.9s 690 Repo card metadata block was not found. Setting CardData to empty.
+7714.9s 691 
+7714.9s 692 Repo card metadata block was not found. Setting CardData to empty.
+7905.3s 693 [cache] evicted EleutherAI/pythia-6.9b (13.9G)
+7905.3s 694 [ckpt] 2/2 models saved -> /kaggle/working/results/results.json
+7905.3s 695 
+7905.3s 696 ================ SUMMARY ================
+7905.3s 697 model                             STS rho  STS regret  last-gap
+7905.3s 698 Qwen/Qwen2.5-7B                     0.658      0.0000    0.0519
+7905.3s 699 EleutherAI/pythia-6.9b              0.849      0.0214    0.0000
+7905.3s 700 [csv] wrote 10 rows -> /kaggle/working/results/results_high1_summary.csv
+7905.3s 701 
+7905.3s 702 ########################  TIER: high2  (2 models)  ########################
+7905.3s 703 
+7905.3s 704 === EleutherAI/gpt-j-6b ===
+8253.0s 705 GPTJModel LOAD REPORT from: EleutherAI/gpt-j-6b
+8253.0s 706 Key                                     | Status     |
+8253.0s 707 ----------------------------------------+------------+---------------------------------------------------------------------------------
+8253.0s 708 transformer.h.{0...27}.attn.masked_bias | UNEXPECTED |
+8253.0s 709 transformer.h.{0...27}.attn.bias        | UNEXPECTED |
+8253.0s 710 lm_head.weight                          | UNEXPECTED |
+8253.0s 711 lm_head.bias                            | UNEXPECTED |
+8253.0s 712 h.9.mlp.fc_out.weight                   | MISSING    |
+8253.0s 713 h.9.mlp.fc_in.weight                    | MISSING    |
+8253.0s 714 h.9.mlp.fc_in.weight                    | CONVERSION | CUDA out of memory. Tried to allocate 256.00 MiB. GPU 1 has a total capacity of
+8253.0s 715 h.9.mlp.fc_out.weight                   | CONVERSION | CUDA out of memory. Tried to allocate 256.00 MiB. GPU 1 has a total capacity of
+8253.0s 716 
+8253.0s 717 Notes:
+8253.0s 718 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+8253.0s 719 - MISSING	:those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+8253.0s 720 - CONVERSION	:originate from the conversion scheme
+8253.0s 721 
+8253.0s 722 GPTJModel LOAD REPORT from: EleutherAI/gpt-j-6b
+8253.0s 723 Key                                     | Status     |
+8253.0s 724 ----------------------------------------+------------+---------------------------------------------------------------------------------
+8253.0s 725 transformer.h.{0...27}.attn.masked_bias | UNEXPECTED |
+8253.0s 726 transformer.h.{0...27}.attn.bias        | UNEXPECTED |
+8253.0s 727 lm_head.weight                          | UNEXPECTED |
+8253.0s 728 lm_head.bias                            | UNEXPECTED |
+8253.0s 729 h.9.mlp.fc_out.weight                   | MISSING    |
+8253.0s 730 h.9.mlp.fc_in.weight                    | MISSING    |
+8253.0s 731 h.9.mlp.fc_in.weight                    | CONVERSION | CUDA out of memory. Tried to allocate 256.00 MiB. GPU 1 has a total capacity of
+8253.0s 732 h.9.mlp.fc_out.weight                   | CONVERSION | CUDA out of memory. Tried to allocate 256.00 MiB. GPU 1 has a total capacity of
+8253.0s 733 
+8253.0s 734 Notes:
+8253.0s 735 - UNEXPECTED	:can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+8253.0s 736 - MISSING	:those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+8253.0s 737 - CONVERSION	:originate from the conversion scheme
+8253.4s 738 [WARN] EleutherAI/gpt-j-6b failed: We encountered some issues during automatic conversion of the weights. For details look at the `CONVERSION` entries of the above report!
+8256.3s 739 [cache] evicted EleutherAI/gpt-j-6b (48.4G)
+8256.3s 740 [ckpt] 1/2 models saved -> /kaggle/working/results/results.json
+8256.3s 741 
+8256.3s 742 === facebook/opt-6.7b ===
+8782.8s 743 Repo card metadata block was not found. Setting CardData to empty.
+8782.8s 744 
+8782.8s 745 Repo card metadata block was not found. Setting CardData to empty.
+8958.7s 746 [cache] evicted facebook/opt-6.7b (13.3G)
+8958.7s 747 [ckpt] 2/2 models saved -> /kaggle/working/results/results.json
+8958.7s 748 
+8958.7s 749 ================ SUMMARY ================
+8958.7s 750 model                             STS rho  STS regret  last-gap
+8958.7s 751 facebook/opt-6.7b                   0.398      0.0035    0.0775
+8958.7s 752 [csv] wrote 5 rows -> /kaggle/working/results/results_high2_summary.csv
+8966.1s 753 /usr/local/lib/python3.12/dist-packages/mistune.py:435: SyntaxWarning: invalid escape sequence '\|'
+8966.1s 754 cells[i][c] = re.sub('\\\\\|', '|', cell)
+8966.4s 755 /usr/local/lib/python3.12/dist-packages/nbconvert/filters/filter_links.py:36: SyntaxWarning: invalid escape sequence '\_'
+8966.4s 756 text = re.sub(r'_', '\_', text) # Escape underscores in display text
+8967.3s 757 [NbConvertApp] Converting notebook __notebook__.ipynb to notebook
+8968.3s 758 [NbConvertApp] Writing 2896884 bytes to __notebook__.ipynb
+8970.7s 759 [NbConvertApp] Converting notebook __notebook__.ipynb to html
+8972.2s 760 [NbConvertApp] Writing 2593810 bytes to __results__.html

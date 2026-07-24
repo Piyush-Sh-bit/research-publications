@@ -1,0 +1,6 @@
+model,task,n_layers,oracle_layer,last_layer_gap,ID_pick,ID_regret,ID_rank_agree,curv_pick,curv_regret,curv_rank_agree
+facebook/opt-6.7b,STS,33,15,0.0775,32,0.0775,0.11,21,0.0351,0.345
+facebook/opt-6.7b,RETRIEVAL,33,16,0.014,32,0.014,0.16,21,0.002,0.504
+facebook/opt-6.7b,sst2,33,20,0.0287,32,0.0287,0.73,21,0.0046,0.906
+facebook/opt-6.7b,trec,33,20,0.014,32,0.014,0.655,21,0.004,0.936
+facebook/opt-6.7b,subj,33,21,0.007,32,0.007,0.691,21,0.0,0.873
