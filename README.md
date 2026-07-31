@@ -71,8 +71,6 @@ Every reported estimate, table, and figure regenerates from the bundled data wit
 
 ## 👨‍💻 About Me
 
-* **Author:** Piyush Sharma
-
 Feel free to open an Issue with any questions about the methodology or codebase for any of the papers, or reach out to me directly via email.
 
 ---
