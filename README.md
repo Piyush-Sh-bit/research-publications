@@ -20,6 +20,12 @@ Organizing my work this way ensures transparency, open science, and full reprodu
 * **Description:** An unsupervised, label-free scalar — the **intrinsic dimension** of a frozen language model's per-layer representations, corroborated by representation-trajectory **curvature** — whose **argmax selects the downstream-optimal layer** with no labels and no training. Validated across **26 models (11 architectures, 160M–7B)**: beats the last-layer default in **72%** of cases (p = 7.5 × 10⁻⁵), recovering a **median 56%** of the oracle accuracy gap at zero labels; on the cells with real headroom (last-layer gap ≥ 2 pts) it recovers a **median 64%** (up to **+7 points**). Includes the diagnosed geometry-only **negative result** and a LayerIQ-guided **layer-pruning** application. Every headline number regenerates from the bundled results with `python analysis/headroom_analysis.py`.
 * **Tech Stack:** Python, PyTorch, Transformers, scikit-learn, SciPy, NumPy
 
+### 3. [DriftAdapt: Gradient-Free Routed Normalization Memory for Stable Test-Time Adaptation under Non-Stationary and Recurrent Drift](./driftadapt)
+* **Status:** Under Review (2026)
+* **Code Folder:** [`/driftadapt`](./driftadapt)
+* **Description:** A **gradient-free** test-time adaptation (TTA) method that is **stable by construction**: it pairs test-time feature normalization with a **CUSUM drift detector** and a **bank of per-state normalization statistics** that are *reactivated, not relearned,* when a distribution recurs — so it has **no learning rate** to tune and cannot enter the entropy-collapse loop that sinks gradient-based TTA, and it comes with a **tracking-error (dynamic-regret) bound**. On the official **CIFAR-10-C** benchmark (5 seeds, CPU-only), DriftAdapt leads on sequential / recurrent / gradual streams (**53.0 / 52.8 / 76.1%**), matches best-tuned Tent with no tuning, and matches a ReservoirTTA-style per-state model bank while using **5.1× less per-state memory** and no test-time backward pass. Fully reproducible on CPU.
+* **Tech Stack:** Python, PyTorch, torchvision, NumPy, Matplotlib
+
 ---
 
 ## 🚀 How to Use This Repository
@@ -34,7 +40,7 @@ Each publication is self-contained within its own folder to prevent dependency c
 
 2. Navigate to the specific publication's folder:
    ```bash
-   cd 2026_mllm_meta_analysis          # or: cd layeriq
+   cd 2026_mllm_meta_analysis          # or: cd layeriq  /  cd driftadapt
    ```
 
 3. Install dependencies:
@@ -52,6 +58,11 @@ Each publication is self-contained within its own folder to prevent dependency c
    python analysis/headroom_analysis.py
    # ...or re-run the full model sweep from scratch (Kaggle GPU):
    python run_all.py
+
+   # DriftAdapt — reproduce on CPU (auto-downloads CIFAR-10; needs the CIFAR-10-C
+   # benchmark — see driftadapt/README.md):
+   cd src
+   python extract_features.py && python train_head.py && python run_experiments.py && python make_figures.py
    ```
 
 Every reported estimate, table, and figure regenerates from the bundled data with these commands.
