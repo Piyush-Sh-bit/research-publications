@@ -14,12 +14,14 @@ Each record contains:
   - year: Publication year
   - source: Citation key for the source paper
 
-All scores are sourced from the original model publications: peer-reviewed papers,
-or — where a model was never published at a peer-reviewed venue — technical reports,
-system cards and official project blog posts. SOURCE_REGISTRY below maps every
-`source` key to its webpage, publication venue and peer-review status; those fields
-are attached to the returned DataFrame and exported in the data provenance table
-(Table 13) so that each analysed value is traceable to its origin.
+Every score carries the source it was taken from. Where a model's own publication
+reported the benchmark, that publication is the source. Where it could not (the
+benchmark postdates it, or the release document carries no benchmark tables), the
+source is the benchmark's own paper or the relevant public leaderboard.
+SOURCE_REGISTRY maps each model to its publication, venue and peer-review status;
+SCORE_PROVENANCE maps each (model, benchmark) pair to the document its value came
+from. Both are exported in the data provenance table (Table 13) as a reference and
+a link for every one of the 102 records.
 Scores are on benchmark-native scales (percentage for most, raw score for MME).
 """
 
@@ -65,6 +67,77 @@ SOURCE_REGISTRY = {
     "liu2024llavanext":    ("https://llava-vl.github.io/blog/2024-01-30-llava-next/", "LLaVA project blog post (not peer reviewed)", "no", 50),
 }
 
+# --------------------------------------------------------------------------
+# Per-value provenance.
+#
+# SOURCE_REGISTRY records where each *model* is described. That is not always
+# where its *score* was read from: a model paper cannot report a benchmark
+# published after it, and a safety-focused system card carries no benchmark
+# tables. SCORE_PROVENANCE records, per (model, benchmark) pair, the document
+# the value was taken from, so every record in Table 13 has a citable source
+# and a working link.
+# --------------------------------------------------------------------------
+BENCHMARK_PAPERS = {
+    "MMBench":    ("liu2023mmbench",  "https://arxiv.org/abs/2307.06281", 19),
+    "SEED-Bench": ("li2024seedbench", "https://arxiv.org/abs/2307.16125", 20),
+    "MM-Vet":     ("yu2024mmvet",     "https://arxiv.org/abs/2308.02490", 21),
+    "MME":        ("fu2023mme",       "https://arxiv.org/abs/2306.13394", 22),
+}
+
+_MMVET = BENCHMARK_PAPERS["MM-Vet"]
+_SEED = BENCHMARK_PAPERS["SEED-Bench"]
+
+# Leaderboards. The MME paper prints only per-subtask accuracies, so aggregate
+# perception totals come from the MME leaderboard; MMBench totals for models the
+# MMBench paper does not tabulate come from the MMBench/OpenCompass leaderboard.
+_MME_LB = ("mme_leaderboard",
+           "https://github.com/BradyFU/Awesome-Multimodal-Large-Language-Models/tree/Evaluation")
+_MMB_LB = ("mmbench_leaderboard", "https://mmbench.opencompass.org.cn/leaderboard")
+_VLM_LB = ("opencompass_openvlm_leaderboard",
+           "https://huggingface.co/spaces/opencompass/open_vlm_leaderboard")
+
+# Where each individual score was taken from: (source key, webpage, source type).
+# Default (not listed here) = the model's own publication, i.e. SOURCE_REGISTRY.
+# Listed here = pairs where the model's own publication cannot be the origin,
+# because the benchmark postdates it or the source carries no benchmark tables.
+SCORE_PROVENANCE = {
+    # MM-Vet paper: values located in its Table 2 / Table 7 results tables
+    ("BLIP-2", "MM-Vet"):           (_MMVET[0], _MMVET[1], "benchmark_paper"),
+    ("MiniGPT-4", "MM-Vet"):        (_MMVET[0], _MMVET[1], "benchmark_paper"),
+    ("InstructBLIP-7B", "MM-Vet"):  (_MMVET[0], _MMVET[1], "benchmark_paper"),
+    ("InstructBLIP-13B", "MM-Vet"): (_MMVET[0], _MMVET[1], "benchmark_paper"),
+    ("GPT-4V", "MM-Vet"):           (_MMVET[0], _MMVET[1], "benchmark_paper"),
+
+    # SEED-Bench paper: values located in its results table
+    ("BLIP-2", "SEED-Bench"):          (_SEED[0], _SEED[1], "benchmark_paper"),
+    ("InstructBLIP-7B", "SEED-Bench"): (_SEED[0], _SEED[1], "benchmark_paper"),
+
+    # MME leaderboard: the MME paper prints only per-subtask accuracies
+    ("BLIP-2", "MME"):           (_MME_LB[0], _MME_LB[1], "leaderboard"),
+    ("InstructBLIP-7B", "MME"):  (_MME_LB[0], _MME_LB[1], "leaderboard"),
+    ("InstructBLIP-13B", "MME"): (_MME_LB[0], _MME_LB[1], "leaderboard"),
+    ("MiniGPT-4", "MME"):        (_MME_LB[0], _MME_LB[1], "leaderboard"),
+    ("GPT-4V", "MME"):           (_MME_LB[0], _MME_LB[1], "leaderboard"),
+    ("Fuyu-8B", "MME"):          (_MME_LB[0], _MME_LB[1], "leaderboard"),
+
+    # MMBench leaderboard
+    ("BLIP-2", "MMBench"):           (_MMB_LB[0], _MMB_LB[1], "leaderboard"),
+    ("MiniGPT-4", "MMBench"):        (_MMB_LB[0], _MMB_LB[1], "leaderboard"),
+    ("InstructBLIP-7B", "MMBench"):  (_MMB_LB[0], _MMB_LB[1], "leaderboard"),
+    ("InstructBLIP-13B", "MMBench"): (_MMB_LB[0], _MMB_LB[1], "leaderboard"),
+    ("GPT-4V", "MMBench"):           (_MMB_LB[0], _MMB_LB[1], "leaderboard"),
+    ("Fuyu-8B", "MMBench"):          (_MMB_LB[0], _MMB_LB[1], "leaderboard"),
+    ("Gemini-Pro-V", "MMBench"):     (_MMB_LB[0], _MMB_LB[1], "leaderboard"),
+
+    # OpenCompass OpenVLM leaderboard: proprietary / late models whose own
+    # release documents carry no benchmark tables
+    ("GPT-4V", "SEED-Bench"):       (_VLM_LB[0], _VLM_LB[1], "leaderboard"),
+    ("Gemini-Pro-V", "SEED-Bench"): (_VLM_LB[0], _VLM_LB[1], "leaderboard"),
+    ("GPT-4V", "TextVQA"):          (_VLM_LB[0], _VLM_LB[1], "leaderboard"),
+    ("Gemini-Pro-V", "TextVQA"):    (_VLM_LB[0], _VLM_LB[1], "leaderboard"),
+    ("Fuyu-8B", "MM-Vet"):          (_VLM_LB[0], _VLM_LB[1], "leaderboard"),
+    ("Gemini-Pro-V", "MM-Vet"):     (_VLM_LB[0], _VLM_LB[1], "leaderboard"),
+}
 
 def _load_new_models(path: str = _NEW_MODELS_CSV) -> list:
     """Load additional models from a wide-format CSV (one row per model) and
@@ -120,9 +193,11 @@ def get_benchmark_data() -> pd.DataFrame:
         {"model": "GPT-4V", "params_b": 1800.0, "vision_encoder": "proprietary",
          "llm_backbone": "GPT-4", "training_strategy": "RLHF",
          "benchmark": "SEED-Bench", "score": 69.1, "year": 2023, "source": "openai2023gpt4v"},
+        # 56.8 was MM-ReAct-GPT-4's spatial-awareness sub-score, not GPT-4V's
+        # total. Corrected to GPT-4V's MM-Vet total as printed in the MM-Vet paper.
         {"model": "GPT-4V", "params_b": 1800.0, "vision_encoder": "proprietary",
          "llm_backbone": "GPT-4", "training_strategy": "RLHF",
-         "benchmark": "MM-Vet", "score": 56.8, "year": 2023, "source": "openai2023gpt4v"},
+         "benchmark": "MM-Vet", "score": 67.7, "year": 2023, "source": "openai2023gpt4v"},
         {"model": "GPT-4V", "params_b": 1800.0, "vision_encoder": "proprietary",
          "llm_backbone": "GPT-4", "training_strategy": "RLHF",
          "benchmark": "MME", "score": 1926.5, "year": 2023, "source": "openai2023gpt4v"},
@@ -530,13 +605,26 @@ def get_benchmark_data() -> pd.DataFrame:
     }
     df["encoder_family"] = df["vision_encoder"].map(encoder_map).fillna(df["vision_encoder"])
 
-    # Attach provenance fields so every record carries its own source webpage,
-    # venue and peer-review status (exported in Table 13).
+    # Model-level provenance: where each model is described.
     _blank = ("", "", "", "")
     df["source_url"] = df["source"].map(lambda s: SOURCE_REGISTRY.get(s, _blank)[0])
     df["source_venue"] = df["source"].map(lambda s: SOURCE_REGISTRY.get(s, _blank)[1])
     df["peer_reviewed"] = df["source"].map(lambda s: SOURCE_REGISTRY.get(s, _blank)[2])
     df["manuscript_ref"] = df["source"].map(lambda s: SOURCE_REGISTRY.get(s, _blank)[3])
+
+    # Value-level provenance: where each individual score was read from.
+    # Defaults to the model's own publication; SCORE_PROVENANCE overrides the
+    # pairs where that publication cannot be (or is not) the origin.
+    _prov_cols = ["score_source", "score_source_url", "score_source_type"]
+
+    def _value_provenance(row):
+        override = SCORE_PROVENANCE.get((row["model"], row["benchmark"]))
+        if override is not None:
+            return pd.Series(override, index=_prov_cols)
+        return pd.Series(
+            [row["source"], row["source_url"], "model_paper"], index=_prov_cols)
+
+    df = pd.concat([df, df.apply(_value_provenance, axis=1)], axis=1)
 
     return df
 

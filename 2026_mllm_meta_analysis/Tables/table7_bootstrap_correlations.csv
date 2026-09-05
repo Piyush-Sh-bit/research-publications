@@ -1,9 +1,9 @@
 benchmark_1,benchmark_2,n,rho,ci_lower,ci_upper,ci_width,reliable
-MM-Vet,MMBench,21,0.7801,0.4508,0.9281,0.4773,True
+MM-Vet,MMBench,21,0.7814,0.4516,0.9318,0.4802,True
 MM-Vet,MME,19,0.8807,0.6463,0.9715,0.3251,True
 MM-Vet,POPE,4,0.9487,0.8165,1.0,0.1835,False
-MM-Vet,SEED-Bench,18,0.7475,0.4134,0.9193,0.506,True
-MM-Vet,TextVQA,14,0.8198,0.4045,0.9776,0.573,True
+MM-Vet,SEED-Bench,18,0.7393,0.4002,0.9172,0.517,True
+MM-Vet,TextVQA,14,0.8242,0.4067,0.9862,0.5795,True
 MM-Vet,VQAv2,5,1.0,1.0,1.0,0.0,True
 MMBench,MME,19,0.9228,0.7427,0.984,0.2413,True
 MMBench,POPE,4,0.6325,-1.0,1.0,2.0,False

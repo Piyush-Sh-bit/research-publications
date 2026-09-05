@@ -304,7 +304,29 @@ def leave_one_benchmark_out_multilevel(df_norm: pd.DataFrame) -> pd.DataFrame:
     rows = []
     for bench in sorted(df_norm["benchmark"].unique()):
         sub = df_norm[df_norm["benchmark"] != bench].copy()
-        fit = fit_multilevel_model(sub, formula=formula, group_var="model")
+        # With k = 21 models and a small RLHF subgroup, dropping a benchmark can
+        # leave the fixed-effects design rank deficient. Record that outcome
+        # rather than aborting the whole robustness suite.
+        try:
+            fit = fit_multilevel_model(sub, formula=formula, group_var="model")
+        except np.linalg.LinAlgError:
+            rows.append({
+                "excluded_benchmark": bench,
+                "n_obs": int(len(sub)),
+                "n_groups": int(sub["model"].nunique()),
+                "scale_coef": np.nan,
+                "scale_se": np.nan,
+                "scale_p": np.nan,
+                "delta_scale_coef": np.nan,
+                "abs_delta_scale_coef": np.nan,
+                "sigma2_between": np.nan,
+                "sigma2_within": np.nan,
+                "icc": np.nan,
+                "aic": np.nan,
+                "bic": np.nan,
+                "converged": False,
+            })
+            continue
         fe = fit["fixed_effects"].set_index("parameter")
 
         scale_coef = float(fe.loc["log_params", "coefficient"])
@@ -326,6 +348,7 @@ def leave_one_benchmark_out_multilevel(df_norm: pd.DataFrame) -> pd.DataFrame:
             "icc": float(fit["icc"]),
             "aic": float(fit["aic"]),
             "bic": float(fit["bic"]),
+            "converged": True,
         })
 
     out = pd.DataFrame(rows).sort_values("abs_delta_scale_coef", ascending=False)

@@ -59,34 +59,55 @@ All data analysed here are **third-party (secondary) data**: benchmark scores pr
 by the developers of each model. No new model evaluations were run for this study, and **no benchmark
 dataset is redistributed in this repository**.
 
-**Which part of the data was used.** For each model we extracted only the headline score reported by
-that model's own authors for each of the seven benchmarks (MMBench, SEED-Bench, MM-Vet, MME, TextVQA,
-POPE, VQAv2), as printed in the results tables of the source publication and under that publication's
-own evaluation protocol. No benchmark images, test items, per-question responses or held-out splits
-were accessed or used. Where a model did not report a benchmark, the value is recorded as missing and
-never imputed — which is why 21 models yield 102, not 147, model–benchmark records.
+**Which part of the data was used.** For each model–benchmark pair we recorded only the single
+publicly reported headline score for the seven benchmarks (MMBench, SEED-Bench, MM-Vet, MME, TextVQA,
+POPE, VQAv2) — taken from the model's own publication where that publication reported the benchmark,
+and otherwise from the benchmark's own evaluation tables or a public leaderboard snapshot, since
+several benchmarks postdate the release of the earlier models. No benchmark images, test items,
+per-question responses or held-out splits were accessed or used. Where a model had no publicly
+reported score for a benchmark, the value is recorded as missing and never imputed — which is why
+21 models yield 102, not 147, model–benchmark records.
 
-**Where each value came from.** Every record in `Tables/table13_data_provenance.csv` carries its own
-source webpage and publication status:
+*Where the **model** is described:*
 
 | Column | Meaning |
 |--------|---------|
-| `source` | Citation key of the publication the value was read from |
+| `source` | Citation key of the model's publication |
 | `source_url` | Webpage of that publication |
 | `source_venue` | Publication venue (or "not peer reviewed" where applicable) |
-| `peer_reviewed` | Whether the source underwent peer review (`yes` / `no`) |
+| `peer_reviewed` | Whether that publication underwent peer review (`yes` / `no`) |
 | `manuscript_ref` | Corresponding reference number in the manuscript |
 
-These fields are generated from `SOURCE_REGISTRY` in `code/data_collection.py`, so they regenerate
-with the rest of the pipeline rather than being maintained by hand.
+*Where the **score** was taken from:*
 
-**Peer-review status.** The 21 models trace to 17 distinct primary sources. **10 sources (12 models)**
-are peer-reviewed publications (CVPR, NeurIPS, ICLR, ICML, ECCV, *Science China Information Sciences*).
-The other **7 sources (9 models)** — GPT-4V, Gemini-Pro-V, Qwen-VL-Chat, Yi-VL-6B, Yi-VL-34B,
-DeepSeek-VL-7B, Fuyu-8B, LLaVA-NeXT-7B and LLaVA-NeXT-13B — are self-reported technical reports,
-system cards or project blog posts that have not undergone independent review. They are retained
-because excluding them would remove the proprietary frontier models and several widely used
-open-weight baselines, but they are flagged in the provenance table and in the paper's limitations.
+| Column | Meaning |
+|--------|---------|
+| `score_source` | Citation key of the document this value was taken from |
+| `score_source_url` | Direct link to that document |
+| `score_source_type` | `model_paper`, `benchmark_paper`, or `leaderboard` |
+
+Every one of the 102 records carries a source and a working link. The split is 76 from the
+model's own publication, 19 from a public leaderboard, and 7 from a benchmark paper. A score is
+attributed to the model's own publication only where that publication could have reported it;
+where the benchmark postdates the model paper, or the release document carries no benchmark
+tables (a system card or blog post), the source is the benchmark's own paper or the relevant
+leaderboard instead.
+
+Sources used: the 17 model publications listed in `SOURCE_REGISTRY`, the MM-Vet and SEED-Bench
+papers, and three public leaderboards — MME
+(`github.com/BradyFU/Awesome-Multimodal-Large-Language-Models`), MMBench
+(`mmbench.opencompass.org.cn/leaderboard`) and OpenCompass OpenVLM
+(`huggingface.co/spaces/opencompass/open_vlm_leaderboard`).
+
+All of these fields are generated from `SOURCE_REGISTRY` and `SCORE_PROVENANCE` in
+`code/data_collection.py`, so they regenerate with the pipeline rather than being hand-maintained.
+
+> **Note on one corrected value.** GPT-4V's MM-Vet score was previously recorded as 56.8. That
+> figure is MM-ReAct-GPT-4's spatial-awareness sub-score in the MM-Vet paper, not GPT-4V's total;
+> it has been corrected to 67.7, the total reported for GPT-4V in that paper. With the corrected
+> value the leave-one-benchmark-out multilevel fit does not converge when MMBench, MME or TextVQA
+> is excluded (rank-deficient design given the two-model RLHF subgroup); those rows are reported
+> as non-converged in Table 12 rather than omitted.
 
 ## Statistical Methods
 
