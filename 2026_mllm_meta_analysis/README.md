@@ -53,6 +53,41 @@ This will:
 - Generate 12 publication-quality figures
 - Export 13 results CSV tables containing full multilevel, robustness, and data provenance logs
 
+## Data Availability and Provenance
+
+All data analysed here are **third-party (secondary) data**: benchmark scores previously published
+by the developers of each model. No new model evaluations were run for this study, and **no benchmark
+dataset is redistributed in this repository**.
+
+**Which part of the data was used.** For each model we extracted only the headline score reported by
+that model's own authors for each of the seven benchmarks (MMBench, SEED-Bench, MM-Vet, MME, TextVQA,
+POPE, VQAv2), as printed in the results tables of the source publication and under that publication's
+own evaluation protocol. No benchmark images, test items, per-question responses or held-out splits
+were accessed or used. Where a model did not report a benchmark, the value is recorded as missing and
+never imputed — which is why 21 models yield 102, not 147, model–benchmark records.
+
+**Where each value came from.** Every record in `Tables/table13_data_provenance.csv` carries its own
+source webpage and publication status:
+
+| Column | Meaning |
+|--------|---------|
+| `source` | Citation key of the publication the value was read from |
+| `source_url` | Webpage of that publication |
+| `source_venue` | Publication venue (or "not peer reviewed" where applicable) |
+| `peer_reviewed` | Whether the source underwent peer review (`yes` / `no`) |
+| `manuscript_ref` | Corresponding reference number in the manuscript |
+
+These fields are generated from `SOURCE_REGISTRY` in `code/data_collection.py`, so they regenerate
+with the rest of the pipeline rather than being maintained by hand.
+
+**Peer-review status.** The 21 models trace to 17 distinct primary sources. **10 sources (12 models)**
+are peer-reviewed publications (CVPR, NeurIPS, ICLR, ICML, ECCV, *Science China Information Sciences*).
+The other **7 sources (9 models)** — GPT-4V, Gemini-Pro-V, Qwen-VL-Chat, Yi-VL-6B, Yi-VL-34B,
+DeepSeek-VL-7B, Fuyu-8B, LLaVA-NeXT-7B and LLaVA-NeXT-13B — are self-reported technical reports,
+system cards or project blog posts that have not undergone independent review. They are retained
+because excluding them would remove the proprietary frontier models and several widely used
+open-weight baselines, but they are flagged in the provenance table and in the paper's limitations.
+
 ## Statistical Methods
 
 | Method | Implementation | Purpose |

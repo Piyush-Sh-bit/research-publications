@@ -14,7 +14,12 @@ Each record contains:
   - year: Publication year
   - source: Citation key for the source paper
 
-All scores are sourced from published papers and official leaderboards.
+All scores are sourced from the original model publications: peer-reviewed papers,
+or — where a model was never published at a peer-reviewed venue — technical reports,
+system cards and official project blog posts. SOURCE_REGISTRY below maps every
+`source` key to its webpage, publication venue and peer-review status; those fields
+are attached to the returned DataFrame and exported in the data provenance table
+(Table 13) so that each analysed value is traceable to its origin.
 Scores are on benchmark-native scales (percentage for most, raw score for MME).
 """
 
@@ -30,6 +35,35 @@ import os
 # --------------------------------------------------------------------------
 _NEW_MODELS_CSV = os.path.join(os.path.dirname(__file__), "new_models.csv")
 _EXP_BENCHMARKS = ["MMBench", "SEED-Bench", "MM-Vet", "MME", "TextVQA", "POPE", "VQAv2"]
+
+# --------------------------------------------------------------------------
+# Provenance registry: source key -> (webpage, venue, peer-reviewed, manuscript
+# reference number). Every benchmark value analysed in the paper was read from
+# the results tables of the source below, under that source's own evaluation
+# protocol; no benchmark items, images or per-question responses were used.
+# 10 of the 17 sources (covering 12 of the 21 models) are peer reviewed; the
+# remaining 7 (covering 9 models) are self-reported technical reports, system
+# cards or blog posts, and are flagged as such in the paper's limitations.
+# --------------------------------------------------------------------------
+SOURCE_REGISTRY = {
+    "liu2024improved":     ("https://arxiv.org/abs/2310.03744", "CVPR 2024", "yes", 3),
+    "dai2023instructblip": ("https://arxiv.org/abs/2305.06500", "NeurIPS 2023", "yes", 4),
+    "li2023blip2":         ("https://arxiv.org/abs/2301.12597", "ICML 2023", "yes", 5),
+    "bai2023qwenvl":       ("https://arxiv.org/abs/2308.12966", "arXiv preprint (not peer reviewed)", "no", 34),
+    "tong2024cambrian":    ("https://arxiv.org/abs/2406.16860", "NeurIPS 2024 (Oral)", "yes", 35),
+    "openai2023gpt4v":     ("https://arxiv.org/abs/2309.17421", "OpenAI system card (not peer reviewed)", "no", 36),
+    "team2023gemini":      ("https://arxiv.org/abs/2312.11805", "Google technical report (not peer reviewed)", "no", 37),
+    "zhu2023minigpt4":     ("https://arxiv.org/abs/2304.10592", "ICLR 2024", "yes", 41),
+    "ye2024mplugowl2":     ("https://arxiv.org/abs/2311.04257", "CVPR 2024", "yes", 42),
+    "wang2024cogvlm":      ("https://arxiv.org/abs/2311.03079", "NeurIPS 2024", "yes", 43),
+    "chen2024sharegpt4v":  ("https://arxiv.org/abs/2311.12793", "ECCV 2024", "yes", 44),
+    "li2024monkey":        ("https://arxiv.org/abs/2311.06607", "CVPR 2024", "yes", 45),
+    "chen2024internvl":    ("https://arxiv.org/abs/2404.16821", "Science China Information Sciences 2024", "yes", 46),
+    "lu2024deepseekvl":    ("https://arxiv.org/abs/2403.05525", "arXiv technical report (not peer reviewed)", "no", 47),
+    "young2024yi":         ("https://arxiv.org/abs/2403.04652", "arXiv technical report (not peer reviewed)", "no", 48),
+    "bavishi2023fuyu":     ("https://www.adept.ai/blog/fuyu-8b/", "Adept blog post (not peer reviewed)", "no", 49),
+    "liu2024llavanext":    ("https://llava-vl.github.io/blog/2024-01-30-llava-next/", "LLaVA project blog post (not peer reviewed)", "no", 50),
+}
 
 
 def _load_new_models(path: str = _NEW_MODELS_CSV) -> list:
@@ -495,7 +529,15 @@ def get_benchmark_data() -> pd.DataFrame:
         "proprietary": "proprietary",
     }
     df["encoder_family"] = df["vision_encoder"].map(encoder_map).fillna(df["vision_encoder"])
-    
+
+    # Attach provenance fields so every record carries its own source webpage,
+    # venue and peer-review status (exported in Table 13).
+    _blank = ("", "", "", "")
+    df["source_url"] = df["source"].map(lambda s: SOURCE_REGISTRY.get(s, _blank)[0])
+    df["source_venue"] = df["source"].map(lambda s: SOURCE_REGISTRY.get(s, _blank)[1])
+    df["peer_reviewed"] = df["source"].map(lambda s: SOURCE_REGISTRY.get(s, _blank)[2])
+    df["manuscript_ref"] = df["source"].map(lambda s: SOURCE_REGISTRY.get(s, _blank)[3])
+
     return df
 
 

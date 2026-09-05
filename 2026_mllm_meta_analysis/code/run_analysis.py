@@ -487,7 +487,8 @@ def main():
     # Table 13: Data provenance log
     provenance_cols = [
         "model", "benchmark", "score", "params_b", "vision_encoder",
-        "llm_backbone", "training_strategy", "year", "source"
+        "llm_backbone", "training_strategy", "year", "source",
+        "source_url", "source_venue", "peer_reviewed", "manuscript_ref"
     ]
     provenance = df[provenance_cols].copy().sort_values(["model", "benchmark"]) 
     provenance.to_csv(os.path.join(tables_dir, "table13_data_provenance.csv"), index=False)
