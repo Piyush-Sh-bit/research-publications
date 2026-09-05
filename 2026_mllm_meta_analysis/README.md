@@ -19,6 +19,8 @@ This repository contains the complete code and data for a multilevel meta-analys
 │   ├── statistical_analysis.py     # Random-effects meta-analysis & meta-regression
 │   ├── visualization.py            # Primary publication-quality figure generation
 │   └── visualization_robustness.py # Generates figures for robustness checks
+├── data/
+│   └── benchmark_scores_verified.csv  # the analysed dataset, one row per observation
 ├── requirements.txt                # Python dependencies
 └── README.md                       # This file
 ```
@@ -40,7 +42,7 @@ python code/run_analysis.py
 ```
 
 This will:
-- Load benchmark data from 21 MLLMs across 7 benchmarks
+- Load benchmark data from 21 MLLMs across 8 benchmarks
 - Normalize scores and compute standardized effect sizes
 - Fit a multilevel mixed-effects model with benchmark scores nested within models
 - Run DerSimonian-Laird random-effects meta-analysis as a secondary sensitivity check
@@ -66,7 +68,7 @@ and otherwise from the benchmark's own evaluation tables or a public leaderboard
 several benchmarks postdate the release of the earlier models. No benchmark images, test items,
 per-question responses or held-out splits were accessed or used. Where a model had no publicly
 reported score for a benchmark, the value is recorded as missing and never imputed — which is why
-21 models yield 102, not 147, model–benchmark records.
+21 models yield 102, not 168, model–benchmark records.
 
 *Where the **model** is described:*
 
@@ -124,11 +126,11 @@ All of these fields are generated from `SOURCE_REGISTRY` and `SCORE_PROVENANCE` 
 | Efficiency Pareto frontier | `robustness_analysis.py` | Computing Pareto optimal models and EEP scores |
 
 ## Key Results
-- **21 models** analyzed across **7 benchmarks** (102 observations)
-- **Multilevel ICC = 0.8005**: Strong clustering at the model level in the primary analysis
+- **21 models** analyzed across **8 benchmarks** (102 observations)
+- **Multilevel ICC = 0.698**: Strong clustering at the model level in the primary analysis
 - **Training strategy** appears to be an important moderator, but the RLHF subgroup is small
-- **Model scale** remains significant in the primary mixed-effects model (β≈0.73, p≈0.016)
-- **DL aggregate analysis** still shows I² = 96.3% and near-zero pooled effect as a secondary check
+- **Model scale** remains significant in the full mixed-effects model (β≈1.31, p≈0.015)
+- **DL aggregate analysis** still shows I² = 92.1% and near-zero pooled effect as a secondary check
 - **Benchmarks** show strong concordance (ρ = 0.63–0.95)
 
 ## Dependencies

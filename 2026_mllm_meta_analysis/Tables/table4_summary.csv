@@ -1,6 +1,6 @@
 Analysis,Statistic,p-value
-Secondary Random-Effects Meta-Analysis,"d = -0.0426 [-0.3765, 0.2913]",0.8026
-Heterogeneity,"I^2 = 95.9%, Q(20) = 487.24, tau^2 = 0.5622",0.0000
-Meta-Regression,"beta1 = 0.7494, R^2 = 0.0235",0.0225
-Egger's Test,"intercept = -5.7587, t = -3.4743",0.0025
-Trim-and-Fill,"Missing = 0, adj. d = -0.0426",---
+Secondary Random-Effects Meta-Analysis,"d = -0.0532 [-0.3582, 0.2518]",0.7323
+Heterogeneity,"I^2 = 92.1%, Q(20) = 254.02, tau^2 = 0.4388",0.0000
+Meta-Regression,"beta1 = 0.6081, R^2 = 0.1839",0.0911
+Egger's Test,"intercept = -3.0013, t = -1.8953",0.0734
+Trim-and-Fill,"Missing = 0, adj. d = -0.0532",---
