@@ -1,29 +1,29 @@
 {
   "mr_multi": {
-    "intercept": -2925.3068907502784,
-    "intercept_se": 485.839152597253,
-    "intercept_p": 1.079269650564294e-05,
-    "R_sq": 0.7268757835327683,
-    "QM": 22.219892693268207,
+    "intercept": -3049.2082168979787,
+    "intercept_se": 473.6778236013913,
+    "intercept_p": 4.660271022712484e-06,
+    "R_sq": 0.6933973025609093,
+    "QM": 20.237476799699724,
     "QM_df": 2,
-    "QM_p": 1.4962756466174731e-05,
-    "QE": 8.832908522377727,
+    "QM_p": 4.031695733985874e-05,
+    "QE": 6.179749644646684,
     "QE_df": 18,
     "n": 21,
     "predictors": [
       "log_params",
       "year"
     ],
-    "log_params_coef": 0.9983293698038761,
-    "log_params_se": 0.21232170442884676,
-    "log_params_p": 0.00017768349171445974,
-    "log_params_ci_lower": 0.5522580213477687,
-    "log_params_ci_upper": 1.4444007182599834,
-    "year_coef": 1.4449655062482774,
-    "year_se": 0.24004368712616267,
-    "year_p": 1.082694287645394e-05,
-    "year_ci_lower": 0.9406524333441982,
-    "year_ci_upper": 1.9492785791523564
+    "log_params_coef": 1.1463563420744172,
+    "log_params_se": 0.18427930632011164,
+    "log_params_p": 7.193689077625998e-06,
+    "log_params_ci_lower": 0.759199885866165,
+    "log_params_ci_upper": 1.5335127982826693,
+    "year_coef": 1.5060995702398128,
+    "year_se": 0.23403403267988324,
+    "year_p": 4.678088319783036e-06,
+    "year_ci_lower": 1.0144123128161546,
+    "year_ci_upper": 1.997786827663471
   },
   "vqav2_bootstrap": [
     {
@@ -75,16 +75,6 @@
       "ci_upper": 1.0,
       "ci_width": 1.1102230246251565e-16,
       "reliable": true
-    },
-    {
-      "benchmark_1": "SEED-Bench-Image",
-      "benchmark_2": "VQAv2",
-      "n": 0,
-      "rho": NaN,
-      "ci_lower": NaN,
-      "ci_upper": NaN,
-      "ci_width": NaN,
-      "reliable": false
     },
     {
       "benchmark_1": "TextVQA",

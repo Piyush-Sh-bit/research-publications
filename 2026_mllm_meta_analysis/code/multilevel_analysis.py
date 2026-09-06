@@ -61,22 +61,9 @@ def fit_multilevel_model(
         Model results including fixed effects, variance components, ICC,
         AIC, BIC, and the fitted model object.
     """
-    # Fit the mixed model. L-BFGS is fast but occasionally hits a singular step
-    # on the smaller subgroups here; fall back through the other optimisers,
-    # which reach the same solution, rather than losing the fit.
+    # Fit the mixed model
     md = smf.mixedlm(formula, df, groups=df[group_var], re_formula="~1")
-    result = None
-    last_error = None
-    for method in ("lbfgs", "bfgs", "powell", "cg", "nm"):
-        try:
-            result = smf.mixedlm(
-                formula, df, groups=df[group_var], re_formula="~1"
-            ).fit(reml=reml, method=method, maxiter=2000)
-            break
-        except Exception as exc:  # optimiser failure, not a specification problem
-            last_error = exc
-    if result is None:
-        raise last_error
+    result = md.fit(reml=reml, method="lbfgs", maxiter=500)
 
     # Extract variance components
     sigma2_between = float(result.cov_re.iloc[0, 0])  # random intercept variance

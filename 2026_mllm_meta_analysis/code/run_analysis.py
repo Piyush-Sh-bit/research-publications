@@ -485,28 +485,20 @@ def main():
     print(f"  + Table 12: Benchmark leave-one-out multilevel sensitivity")
 
     # Table 13: Data provenance log
-    # Table 13 reports the complete provenance record, not just the modelling
-    # sample: every row of the verified table, including cells left blank where
-    # no defensible source was found, and the models excluded from modelling
-    # because their parameter counts are undisclosed. Each row carries the
-    # document its score was taken from and a direct link to it.
-    from data_collection import get_full_table
+    # Provenance columns are descriptive only; they record where each value was
+    # read from and change no score and no analysis result.
+    from provenance import add_provenance, summary as provenance_summary
 
     provenance_cols = [
         "model", "benchmark", "score", "params_b", "vision_encoder",
         "llm_backbone", "training_strategy", "year", "source",
-        "source_url", "source_venue", "peer_reviewed", "manuscript_ref",
+        "source_url", "source_venue", "peer_reviewed",
         "score_source", "score_source_url", "score_source_type"
     ]
-    full = get_full_table()
-    provenance = full[provenance_cols].copy().sort_values(["model", "benchmark"])
-    provenance["in_modelling_sample"] = [
-        bool(((df["model"] == m) & (df["benchmark"] == b)).any())
-        for m, b in zip(provenance["model"], provenance["benchmark"])
-    ]
+    provenance = add_provenance(df)[provenance_cols].copy().sort_values(["model", "benchmark"])
     provenance.to_csv(os.path.join(tables_dir, "table13_data_provenance.csv"), index=False)
-    print(f"  + Table 13: Data provenance log ({len(provenance)} records, "
-          f"{int(provenance['in_modelling_sample'].sum())} in the modelling sample)")
+    print(f"  + Table 13: Data provenance log ({len(provenance)} records)")
+    print(f"      {provenance_summary(df)}")
     
     # ================================================================
     # Step 12: Generate Figures (Original 7 + 4 Robustness)
