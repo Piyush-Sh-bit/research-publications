@@ -1,6 +1,6 @@
 # MLLM Visual Reasoning Meta-Analysis
 
-**Title:** *Scale, Strategy, and Structure: A Multilevel Meta-Analysis of Multimodal Large Language Model Performance on Visual Reasoning Benchmarks*
+**Title:** *A Multilevel Meta-Analysis of Visual Reasoning in Multimodal Large Language Models*
 **Author:** Piyush Sharma
 
 ## Overview
